@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './App.scss';
 import { api } from './api';
+import logo from './logo.svg';
 
 function App() {
   const [repos, setRepos] = useState([]);
@@ -27,6 +28,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
