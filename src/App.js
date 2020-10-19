@@ -8,7 +8,6 @@ function App() {
 
   const getData = async () => {
     const { data: repoData } = await api.getRepos({ username: 'davidholyko' });
-    console.log('!!! data', repoData);
     setRepos(repoData);
 
     const { data: historyData } = await api.getRepoCommitHistory({
@@ -19,8 +18,6 @@ function App() {
   };
 
   useEffect(() => {
-    console.log('!!! useEffect');
-
     getData();
   }, []);
 
