@@ -11,6 +11,13 @@ module.exports = {
     filename: 'bundle.js',
     publicPath: '/',
   },
+  devServer: {
+    port: 3000,
+    hot: true,
+    open: true,
+    historyApiFallback: true,
+    contentBase: './',
+  },
   devtool: 'eval-source-map',
   module: {
     rules: [
@@ -37,11 +44,11 @@ module.exports = {
       },
     ],
   },
-  devServer: {
-    port: 3000,
-    open: true,
-    hot: true,
-  },
+  // resolve: {
+  //   alias: {
+  //     react: path.resolve('./node_modules/react'),
+  //   },
+  // },
   plugins: [
     new HtmlWebpackPlugin({
       template: './public/index.html',

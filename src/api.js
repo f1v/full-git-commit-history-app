@@ -1,8 +1,6 @@
 import { request } from '@octokit/request';
 const TOKEN = process.env.GITHUB_TOKEN;
 
-console.log('!!! token', TOKEN);
-
 // endpoints
 // https://docs.github.com/en/free-pro-team@latest/rest/overview/endpoints-available-for-github-apps
 
