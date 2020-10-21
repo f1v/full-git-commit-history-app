@@ -5,4 +5,5 @@
     "titleBar.activeBackground": "#07484C",
     "titleBar.activeForeground": "#EEFCFD"
   },
+  "editor.wordWrapColumn": 160
 }
