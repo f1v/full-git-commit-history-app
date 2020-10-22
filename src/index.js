@@ -52,7 +52,6 @@ const getRepoCommitHistory = async ({
       escapeCount: escapeCount++,
     });
   } else {
-    console.log('!!! data', data);
     return data;
   }
 };
@@ -79,6 +78,8 @@ function D3Chart({ data = DEFAULT_DATA }) {
     bottom: 125,
   };
   const color = 'white';
+
+  useEffect(() => {}, []);
 
   const x = d3
     .scaleBand()
@@ -142,22 +143,14 @@ function D3Chart({ data = DEFAULT_DATA }) {
 
 function RepoPage(props) {
   const repoRef = useRef(null);
-  const [history, setHistory] = useState([]);
+  // const [history, setHistory] = useState([]);
   const { repo } = props.match.params;
 
-  const getData = async () => {
-    const { data: historyData } = await api.getRepoCommitHistory({
-      owner: 'davidholyko',
-      repo,
-    });
-    setHistory(historyData);
-  };
+  const getData = async () => {};
 
   useEffect(() => {
     getData();
   }, []);
-
-  console.log('!!! history', history);
 
   return (
     <div ref={repoRef}>
@@ -181,9 +174,11 @@ function RepositoriesPage() {
 
   const getData = async () => {
     const tempData = {};
+    console.log('!!! username', username);
     const { data: repoData } = await api.getReposData({
       username,
     });
+
     const excluded = ['public-apis', 'EaselJS'];
     const reposToFetch = repoData.filter(
       ({ name }) => !excluded.includes(name),
@@ -194,7 +189,6 @@ function RepositoriesPage() {
           owner: username,
           repo: repo.name,
         });
-        console.log('!!! commitHistoryData', commitHistoryData);
         tempData[repo.name] = commitHistoryData;
       }),
     );
@@ -208,21 +202,31 @@ function RepositoriesPage() {
 
   useEffect(() => {
     getData();
+    return () => {};
   }, []);
 
-  const onSubmit = (e) => {
+  const onSubmit = async () => {
     event.preventDefault();
-    console.log('!!! e', e, e.target.value);
-    setUsername(e.target.value);
+    await getData();
+  };
+
+  const onChange = (event) => {
+    console.log('!!! onChange', event.target.value);
+    event.persist();
+    setUsername(event.target.value);
   };
 
   return (
     <div>
       <h1>All your repositories</h1>
       <form onSubmit={onSubmit}>
-        <input type="text" placeholder="enter github username here"></input>
+        <input
+          type="text"
+          placeholder="enter github username here"
+          onChange={onChange}
+        ></input>
       </form>
-      {d3Data.length && <D3Chart data={d3Data} />}
+      {d3Data.length && <D3Chart data={d3Data} key={JSON.stringify(d3Data)} />}
       {repos.map((repo, index) => (
         <Link to={`commits/${repo.name}`} className="link" key={index}>
           <p>{repo.name}</p>
