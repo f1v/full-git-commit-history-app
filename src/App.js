@@ -14,13 +14,13 @@ const DEFAULT_DATA = [
 
 function D3Chart({ data = DEFAULT_DATA }) {
   const svgRef = useRef(null);
-  const width = 500;
-  const height = 500;
+  const width = 700;
+  const height = 700;
   const margin = {
-    left: 20,
+    left: 125,
     right: 20,
-    top: 20,
-    bottom: 20,
+    top: 100,
+    bottom: 125,
   };
   const color = 'white';
 
@@ -28,7 +28,7 @@ function D3Chart({ data = DEFAULT_DATA }) {
     .scaleBand()
     .domain(d3.range(data.length))
     .range([margin.left, width - margin.right])
-    .padding(0.1);
+    .padding(0.5);
   const y = d3
     .scaleLinear()
     .domain([0, d3.max(data, (d) => d.value)])
@@ -69,12 +69,19 @@ function D3Chart({ data = DEFAULT_DATA }) {
     .attr('height', (d) => y(0) - y(d.value))
     .attr('width', x.bandwidth());
 
-  svg.append('g').call(xAxis);
+  svg
+    .append('g')
+    .call(xAxis)
+    .selectAll('text')
+    .style('text-anchor', 'end')
+    // .attr('dx', '-.8em')
+    // .attr('dy', '-.55em')
+    .attr('transform', 'rotate(-45)');
   svg.append('g').call(yAxis);
 
   return (
     <div>
-      <svg ref={svgRef}></svg>
+      <svg ref={svgRef} height={height} width={width}></svg>
     </div>
   );
 }
