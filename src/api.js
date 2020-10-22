@@ -16,11 +16,37 @@ const getReposData = async ({ username }) => {
   });
 };
 
-const getRepoCommitHistory = async ({ owner, repo, sha = 'master' }) => {
-  return await octoRequest(`GET /repos/{owner}/{repo}/commits?sha=${sha}`, {
-    owner,
-    repo,
-  });
+const getRepoCommitHistory = async ({
+  owner,
+  repo,
+  sha = 'master',
+  data = [],
+  escapeCount = 0,
+}) => {
+  if (escapeCount > 5) return data;
+  const { data: commitHistory } = await octoRequest(
+    `GET /repos/{owner}/{repo}/commits?sha=${sha}`,
+    {
+      owner,
+      repo,
+    },
+  );
+
+  const { sha: earliestSHA } = commitHistory[commitHistory.length - 1];
+  data = [...data, ...commitHistory];
+
+  if (commitHistory.length > 1) {
+    return await getRepoCommitHistory({
+      owner,
+      repo,
+      sha: earliestSHA,
+      data,
+      escapeCount: escapeCount++,
+    });
+  } else {
+    console.log('!!! data', data);
+    return data;
+  }
 };
 
 export const api = {

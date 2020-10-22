@@ -74,8 +74,6 @@ function D3Chart({ data = DEFAULT_DATA }) {
     .call(xAxis)
     .selectAll('text')
     .style('text-anchor', 'end')
-    // .attr('dx', '-.8em')
-    // .attr('dy', '-.55em')
     .attr('transform', 'rotate(-45)');
   svg.append('g').call(yAxis);
 
@@ -108,7 +106,6 @@ function RepoPage(props) {
   return (
     <div ref={repoRef}>
       <h1>{repo}</h1>
-      <D3Chart />
     </div>
   );
 }
@@ -124,18 +121,24 @@ RepoPage.propTypes = {
 function RepositoriesPage() {
   const [repos, setRepos] = useState([]);
   const [d3Data, setD3Data] = useState({});
+  const [username, setUsername] = useState('davidholyko');
 
   const getData = async () => {
     const tempData = {};
     const { data: repoData } = await api.getReposData({
-      username: 'davidholyko',
+      username,
     });
+    const excluded = ['public-apis', 'EaselJS'];
+    const reposToFetch = repoData.filter(
+      ({ name }) => !excluded.includes(name),
+    );
     await Promise.all(
-      repoData.map(async (repo) => {
-        const { data: commitHistoryData } = await api.getRepoCommitHistory({
-          owner: 'davidholyko',
+      reposToFetch.map(async (repo) => {
+        const commitHistoryData = await api.getRepoCommitHistory({
+          owner: username,
           repo: repo.name,
         });
+        console.log('!!! commitHistoryData', commitHistoryData);
         tempData[repo.name] = commitHistoryData;
       }),
     );
