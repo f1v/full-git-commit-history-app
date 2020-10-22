@@ -27,7 +27,7 @@
     "svg-url-loader": "^6.0.0"
   },
   "scripts": {
-    "start": "npx webpack-dev-server",
+    "start": "npx webpack-dev-server --hot",
     "build": "webpack -p",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
