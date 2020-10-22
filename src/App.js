@@ -1,10 +1,64 @@
 import React, { useEffect, useState, useRef } from 'react';
 import './App.scss';
-import { api } from './api';
 import logo from './logo.svg';
 import { Link, Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import * as d3 from 'd3';
+import { request } from '@octokit/request';
+const TOKEN = process.env.GITHUB_TOKEN;
+
+// endpoints
+// https://docs.github.com/en/free-pro-team@latest/rest/overview/endpoints-available-for-github-apps
+
+const octoRequest = request.defaults({
+  headers: {
+    authorization: 'token ' + TOKEN,
+  },
+});
+
+const getReposData = async ({ username }) => {
+  return await octoRequest('GET /users/{username}/repos', {
+    username,
+  });
+};
+
+const getRepoCommitHistory = async ({
+  owner,
+  repo,
+  sha = 'master',
+  data = [],
+  escapeCount = 0,
+}) => {
+  if (escapeCount > 5) return data;
+  const { data: commitHistory } = await octoRequest(
+    `GET /repos/{owner}/{repo}/commits?sha=${sha}`,
+    {
+      owner,
+      repo,
+    },
+  );
+
+  const { sha: earliestSHA } = commitHistory[commitHistory.length - 1];
+  data = [...data, ...commitHistory];
+
+  if (commitHistory.length > 1) {
+    return await getRepoCommitHistory({
+      owner,
+      repo,
+      sha: earliestSHA,
+      data,
+      escapeCount: escapeCount++,
+    });
+  } else {
+    console.log('!!! data', data);
+    return data;
+  }
+};
+
+const api = {
+  getReposData,
+  getRepoCommitHistory,
+};
 
 const DEFAULT_DATA = [
   { name: 'a', value: 1 },
@@ -143,8 +197,6 @@ function RepositoriesPage() {
       }),
     );
 
-    console.log('!!! tempData', tempData);
-
     const tempD3Data = Object.entries(tempData).map(([key, value]) => {
       return { name: key, value: value.length };
     });
@@ -156,9 +208,18 @@ function RepositoriesPage() {
     getData();
   }, []);
 
+  const onSubmit = (e) => {
+    event.preventDefault();
+    console.log('!!! e', e, e.target.value);
+    setUsername(e.target.value);
+  };
+
   return (
     <div>
       <h1>All your repositories</h1>
+      <form onSubmit={onSubmit}>
+        <input type="text" placeholder="enter github username here"></input>
+      </form>
       {d3Data.length && <D3Chart data={d3Data} />}
       {repos.map((repo, index) => (
         <Link to={`commits/${repo.name}`} className="link" key={index}>
