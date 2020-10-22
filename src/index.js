@@ -27,7 +27,7 @@ const getReposData = async ({ username }) => {
 const getRepoCommitHistory = async ({
   owner,
   repo,
-  sha = 'master',
+  sha = '',
   data = [],
   escapeCount = 0,
 }) => {
