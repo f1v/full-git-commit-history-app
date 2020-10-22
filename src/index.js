@@ -174,7 +174,6 @@ function RepositoriesPage() {
 
   const getData = async () => {
     const tempData = {};
-    console.log('!!! username', username);
     const { data: repoData } = await api.getReposData({
       username,
     });
@@ -211,7 +210,6 @@ function RepositoriesPage() {
   };
 
   const onChange = (event) => {
-    console.log('!!! onChange', event.target.value);
     event.persist();
     setUsername(event.target.value);
   };
