@@ -6,7 +6,13 @@ import { Link, Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import * as d3 from 'd3';
 
-function D3Chart() {
+const DEFAULT_DATA = [
+  { name: 'a', value: 1 },
+  { name: 'b', value: 2 },
+  { name: 'c', value: 2 },
+];
+
+function D3Chart({ data = DEFAULT_DATA }) {
   const svgRef = useRef(null);
   const width = 500;
   const height = 500;
@@ -17,11 +23,7 @@ function D3Chart() {
     bottom: 20,
   };
   const color = 'white';
-  const data = [
-    { name: 'a', value: 1 },
-    { name: 'b', value: 2 },
-    { name: 'c', value: 2 },
-  ];
+
   const x = d3
     .scaleBand()
     .domain(d3.range(data.length))
@@ -114,9 +116,29 @@ RepoPage.propTypes = {
 
 function RepositoriesPage() {
   const [repos, setRepos] = useState([]);
+  const [d3Data, setD3Data] = useState({});
 
   const getData = async () => {
-    const { data: repoData } = await api.getRepos({ username: 'davidholyko' });
+    const tempData = {};
+    const { data: repoData } = await api.getReposData({
+      username: 'davidholyko',
+    });
+    await Promise.all(
+      repoData.map(async (repo) => {
+        const { data: commitHistoryData } = await api.getRepoCommitHistory({
+          owner: 'davidholyko',
+          repo: repo.name,
+        });
+        tempData[repo.name] = commitHistoryData;
+      }),
+    );
+
+    console.log('!!! tempData', tempData);
+
+    const tempD3Data = Object.entries(tempData).map(([key, value]) => {
+      return { name: key, value: value.length };
+    });
+    setD3Data(tempD3Data);
     setRepos(repoData);
   };
 
@@ -126,7 +148,8 @@ function RepositoriesPage() {
 
   return (
     <div>
-      d7
+      <h1>All your repositories</h1>
+      {d3Data.length && <D3Chart data={d3Data} />}
       {repos.map((repo, index) => (
         <Link to={`commits/${repo.name}`} className="link" key={index}>
           <p>{repo.name}</p>

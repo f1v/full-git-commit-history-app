@@ -10,21 +10,21 @@ const octoRequest = request.defaults({
   },
 });
 
-const getRepos = async ({ username }) => {
+const getReposData = async ({ username }) => {
   return await octoRequest('GET /users/{username}/repos', {
     username,
   });
 };
 
-const getRepoCommitHistory = async ({ owner, repo }) => {
-  return await octoRequest('GET /repos/{owner}/{repo}/commits', {
+const getRepoCommitHistory = async ({ owner, repo, sha = 'master' }) => {
+  return await octoRequest(`GET /repos/{owner}/{repo}/commits?sha=${sha}`, {
     owner,
     repo,
   });
 };
 
 export const api = {
-  getRepos,
+  getReposData,
   getRepoCommitHistory,
 };
 
