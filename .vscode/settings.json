@@ -5,5 +5,11 @@
     "titleBar.activeBackground": "#07484C",
     "titleBar.activeForeground": "#EEFCFD"
   },
-  "editor.wordWrapColumn": 160
+  "editor.wordWrapColumn": 160,
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }
