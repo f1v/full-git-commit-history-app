@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 function RepoPage(props) {
   const repoRef = useRef(null);
-  // const [history, setHistory] = useState([]);
   const { repo } = props.match.params;
 
   const getData = async () => {};
