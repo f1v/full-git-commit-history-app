@@ -1,3 +1,9 @@
 [build]
 	publish = "dist"
 	command = "npm run build"
+
+# Fixes 404 errors while using a router + Netlify
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
