@@ -35,3 +35,4 @@ scopes:
   - netlify
   - readme
   - webpack
+  - prettier
