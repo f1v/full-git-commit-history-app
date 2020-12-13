@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
+import PropTypes from 'prop-types';
 
 const DEFAULT_DATA = [
   { name: 'a', value: 1 },
@@ -80,5 +81,9 @@ function D3Chart({ data = DEFAULT_DATA }) {
     </div>
   );
 }
+
+D3Chart.propTypes = {
+  data: PropTypes.object,
+};
 
 export default D3Chart;

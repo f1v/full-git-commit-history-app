@@ -14,7 +14,7 @@ ReactDOM.render(
 );
 
 if (module.hot) {
-  module.hot.accept(function () {
+  module.hot.accept(() => {
     console.log('An error occurred while accepting new version');
   });
 }
