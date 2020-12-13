@@ -12,7 +12,7 @@ types:
   - refactor
   - perf
   - test
-  - build
+  - deploy
   - ci
   - chore
   - revert
@@ -33,5 +33,6 @@ scopes:
   - github-api
   - home-page
   - netlify
+  - prettier
   - readme
   - webpack
