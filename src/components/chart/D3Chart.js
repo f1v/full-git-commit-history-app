@@ -83,7 +83,12 @@ function D3Chart({ data = DEFAULT_DATA }) {
 }
 
 D3Chart.propTypes = {
-  data: PropTypes.object,
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      value: PropTypes.number.isRequired,
+    }).isRequired,
+  ).isRequired,
 };
 
 export default D3Chart;
