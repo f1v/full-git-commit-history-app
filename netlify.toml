@@ -1,6 +1,6 @@
 [build]
 	publish = "dist"
-	command = "node ./scripts/build.js && npm run build"
+	command = "node ./scripts/create-token.js && npm run build"
 
 # Fixes 404 errors while using a router + Netlify
 [[redirects]]
