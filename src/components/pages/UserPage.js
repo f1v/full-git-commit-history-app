@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import D3Chart from '../chart/D3Chart';
 import API from '../../utils/api';
+import PropTypes from 'prop-types';
 
-export const UserPage = () => {
+export const UserPage = (props) => {
   const [repos, setRepos] = useState([]);
   const [d3Data, setD3Data] = useState({});
-  const [username, setUsername] = useState('davidholyko');
-  // TODO set username to props.match.params;
+  const [username, setUsername] = useState(props.match.params.user);
+  const [shouldRedirect, setShouldRedirect] = useState(false);
 
   const getData = async () => {
     const tempData = {};
@@ -43,13 +44,17 @@ export const UserPage = () => {
 
   const onSubmit = async () => {
     event.preventDefault();
-    await getData();
+    setShouldRedirect(true);
   };
 
   const onChange = (event) => {
     event.persist();
     setUsername(event.target.value);
   };
+
+  if (shouldRedirect) {
+    return <Redirect to={`${username}`} />;
+  }
 
   return (
     <div>
@@ -69,4 +74,12 @@ export const UserPage = () => {
       ))}
     </div>
   );
+};
+
+UserPage.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      user: PropTypes.string,
+    }),
+  }),
 };
