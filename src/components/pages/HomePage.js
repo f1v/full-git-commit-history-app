@@ -1,19 +1,34 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import logo from '../../images/logo.svg';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { Box, Flex, Input, Text } from '@chakra-ui/react';
 
 export const HomePage = () => {
-  // TODO: rework this home page completely. Search field to lookup profile should go here
+  const history = useHistory();
+  const [username, setUsername] = useState('');
+
+  const onChange = (event) => {
+    setUsername(event.target.value);
+  };
+
+  const onSubmit = () => {
+    username && history.push(`/user/${username}`);
+  };
+
   return (
-    <div>
-      <img src={logo} className="App-logo" alt="logo" />
-      <p>
-        Edit <code>src/App.js</code> and save to reload.
-      </p>
-      {/* TODO find a good default github user */}
-      <Link className="App-link" to="user/davidholyko">
-        Learn React
-      </Link>
-    </div>
+    <Box as="form" onSubmit={onSubmit}>
+      <Flex direction="column">
+        <Text as="label" fontSize="34px" htmlFor="username" mb="12px">
+          Enter GitHub Username:
+        </Text>
+        <Input
+          fontSize="24px"
+          h="60px"
+          id="username"
+          onChange={onChange}
+          textAlign="center"
+          w="350px"
+        />
+      </Flex>
+    </Box>
   );
 };
