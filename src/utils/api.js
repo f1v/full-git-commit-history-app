@@ -4,6 +4,8 @@ const TOKEN = process.env.REACT_APP_GITHUB_TOKEN;
 // endpoints
 // https://docs.github.com/en/free-pro-team@latest/rest/overview/endpoints-available-for-github-apps
 
+console.log('!!! process.env.', process.env);
+
 const octoRequest = request.defaults({
   headers: {
     authorization: 'token ' + TOKEN,
