@@ -1,28 +1,33 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import D3Chart from '../chart/D3Chart';
 import API from '../../utils/api';
+import PropTypes from 'prop-types';
 
-export const UserPage = () => {
+export const UserPage = ({ match }) => {
   const [repos, setRepos] = useState([]);
   const [d3Data, setD3Data] = useState({});
-  const [username, setUsername] = useState('davidholyko');
-  // TODO set username to props.match.params;
+  const { user } = match.params;
+  // TODO: rip out our search into its own component
+  const [username, setUsername] = useState('');
+  let [shouldRedirect, setShouldRedirect] = useState(false);
 
   const getData = async () => {
     const tempData = {};
     const { data: repoData } = await API.getReposData({
-      username,
+      username: user,
     });
 
+    // TODO: remove these excluded repos
     const excluded = ['public-apis', 'EaselJS'];
     const reposToFetch = repoData.filter(
       ({ name }) => !excluded.includes(name),
     );
+
     await Promise.all(
       reposToFetch.map(async (repo) => {
         const commitHistoryData = await API.getRepoCommitHistory({
-          owner: username,
+          owner: user,
           repo: repo.name,
         });
         tempData[repo.name] = commitHistoryData;
@@ -41,15 +46,19 @@ export const UserPage = () => {
     return () => {};
   }, []);
 
-  const onSubmit = async () => {
+  const onSubmit = async (event) => {
     event.preventDefault();
-    await getData();
+    setShouldRedirect(true);
   };
 
   const onChange = (event) => {
     event.persist();
     setUsername(event.target.value);
   };
+
+  if (shouldRedirect) {
+    return <Redirect to={username} />;
+  }
 
   return (
     <div>
@@ -63,10 +72,18 @@ export const UserPage = () => {
       </form>
       {d3Data.length && <D3Chart data={d3Data} key={JSON.stringify(d3Data)} />}
       {repos.map((repo, index) => (
-        <Link to={`${username}/repo/${repo.name}`} className="link" key={index}>
+        <Link to={`${user}/repo/${repo.name}`} className="link" key={index}>
           <p>{repo.name}</p>
         </Link>
       ))}
     </div>
   );
+};
+
+UserPage.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      user: PropTypes.string,
+    }),
+  }),
 };
