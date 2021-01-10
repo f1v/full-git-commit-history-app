@@ -63,7 +63,7 @@ export const UserPage = () => {
       </form>
       {d3Data.length && <D3Chart data={d3Data} key={JSON.stringify(d3Data)} />}
       {repos.map((repo, index) => (
-        <Link to={`commits/${repo.name}`} className="link" key={index}>
+        <Link to={`${username}/repo/${repo.name}`} className="link" key={index}>
           <p>{repo.name}</p>
         </Link>
       ))}
