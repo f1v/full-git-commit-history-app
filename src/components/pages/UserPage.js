@@ -7,23 +7,27 @@ import PropTypes from 'prop-types';
 export const UserPage = (props) => {
   const [repos, setRepos] = useState([]);
   const [d3Data, setD3Data] = useState({});
-  const [username, setUsername] = useState(props.match.params.user);
+  const { user } = props.match.params;
+  // TODO: rip out our search into its own component
+  const [username, setUsername] = useState('');
   const [shouldRedirect, setShouldRedirect] = useState(false);
 
   const getData = async () => {
     const tempData = {};
     const { data: repoData } = await API.getReposData({
-      username,
+      username: user,
     });
 
+    // TODO: remove these excluded repos
     const excluded = ['public-apis', 'EaselJS'];
     const reposToFetch = repoData.filter(
       ({ name }) => !excluded.includes(name),
     );
+
     await Promise.all(
       reposToFetch.map(async (repo) => {
         const commitHistoryData = await API.getRepoCommitHistory({
-          owner: username,
+          owner: user,
           repo: repo.name,
         });
         tempData[repo.name] = commitHistoryData;
@@ -68,7 +72,7 @@ export const UserPage = (props) => {
       </form>
       {d3Data.length && <D3Chart data={d3Data} key={JSON.stringify(d3Data)} />}
       {repos.map((repo, index) => (
-        <Link to={`${username}/repo/${repo.name}`} className="link" key={index}>
+        <Link to={`${user}/repo/${repo.name}`} className="link" key={index}>
           <p>{repo.name}</p>
         </Link>
       ))}
