@@ -4,13 +4,13 @@ import D3Chart from '../chart/D3Chart';
 import API from '../../utils/api';
 import PropTypes from 'prop-types';
 
-export const UserPage = (props) => {
+export const UserPage = ({ match }) => {
   const [repos, setRepos] = useState([]);
   const [d3Data, setD3Data] = useState({});
-  const { user } = props.match.params;
+  const { user } = match.params;
   // TODO: rip out our search into its own component
   const [username, setUsername] = useState('');
-  const [shouldRedirect, setShouldRedirect] = useState(false);
+  let [shouldRedirect, setShouldRedirect] = useState(false);
 
   const getData = async () => {
     const tempData = {};
@@ -57,7 +57,7 @@ export const UserPage = (props) => {
   };
 
   if (shouldRedirect) {
-    return <Redirect to={`${username}`} />;
+    return <Redirect to={username} />;
   }
 
   return (

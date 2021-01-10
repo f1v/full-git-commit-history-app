@@ -9,7 +9,7 @@ export const Routes = () => {
         exact
         path="/user/:user"
         render={(props) => {
-          return <UserPage {...props} />;
+          return <UserPage key={Math.random()} {...props} />;
         }}
       />
       <Route
