@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
-function RepoPage(props) {
+export const RepoPage = (props) => {
   const repoRef = useRef(null);
   const { repo } = props.match.params;
 
@@ -16,7 +16,7 @@ function RepoPage(props) {
       <h1>{repo}</h1>
     </div>
   );
-}
+};
 
 RepoPage.propTypes = {
   match: PropTypes.shape({
@@ -25,5 +25,3 @@ RepoPage.propTypes = {
     }),
   }),
 };
-
-export default RepoPage;

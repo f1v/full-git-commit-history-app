@@ -3,10 +3,11 @@ import { Link } from 'react-router-dom';
 import D3Chart from '../chart/D3Chart';
 import API from '../../utils/api';
 
-function RepositoriesPage() {
+export const UserPage = () => {
   const [repos, setRepos] = useState([]);
   const [d3Data, setD3Data] = useState({});
   const [username, setUsername] = useState('davidholyko');
+  // TODO set username to props.match.params;
 
   const getData = async () => {
     const tempData = {};
@@ -68,6 +69,4 @@ function RepositoriesPage() {
       ))}
     </div>
   );
-}
-
-export default RepositoriesPage;
+};
