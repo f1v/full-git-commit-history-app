@@ -10,7 +10,8 @@ export const HomePage = () => {
       <p>
         Edit <code>src/App.js</code> and save to reload.
       </p>
-      <Link className="App-link" to="/profile/:davidholyko">
+      {/* TODO find a good default github user */}
+      <Link className="App-link" to="user/davidholyko">
         Learn React
       </Link>
     </div>

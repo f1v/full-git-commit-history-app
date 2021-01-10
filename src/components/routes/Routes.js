@@ -7,14 +7,14 @@ export const Routes = () => {
     <Switch>
       <Route
         exact
-        path="/profile/:user"
+        path="/user/:user"
         render={(props) => {
           return <UserPage {...props} />;
         }}
       />
       <Route
         exact
-        path="/profile/:user/:repo"
+        path="/user/:user/repo/:repo"
         render={(props) => {
           return <RepoPage {...props} />;
         }}
