@@ -46,7 +46,7 @@ export const UserPage = (props) => {
     return () => {};
   }, []);
 
-  const onSubmit = async () => {
+  const onSubmit = async (event) => {
     event.preventDefault();
     setShouldRedirect(true);
   };
