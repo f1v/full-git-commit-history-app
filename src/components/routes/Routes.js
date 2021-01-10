@@ -19,7 +19,7 @@ export const Routes = () => {
           return <RepoPage {...props} />;
         }}
       />
-      <Route path="/" component={HomePage} />
+      <Route path="/" component={HomePage} exact />
     </Switch>
   );
 };
