@@ -29,6 +29,8 @@ scopes:
   - netlify
   - prettier
   - readme
+  - repo-page
   - revert
+  - user-page
   - tests
   - webpack
