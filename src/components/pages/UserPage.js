@@ -1,21 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useRecoilState } from 'recoil';
 import { Spinner } from '@chakra-ui/react';
-import API from '../../utils/api';
-import { RepoList } from '../repo-list/RepoList';
 import { userRepoState } from '../../recoil/atoms/userRepoState';
+import API from '../../utils/api';
 import { parseUserData } from '../../utils/github-data-parser';
+import { RepoList } from '../repo-list/RepoList';
+import { UsernameSearchField } from '../main/UsernameSearchField';
 
 export const UserPage = ({ match }) => {
   const { user } = match.params;
   const [isLoading, setIsLoading] = useState(false);
   const [userRepos, setUserRepos] = useRecoilState(userRepoState);
   const { [user]: currentUserRepos = [] } = userRepos;
-  // TODO: rip out our search into its own component
-  const [username, setUsername] = useState('');
-  let [shouldRedirect, setShouldRedirect] = useState(false);
 
   const getData = async () => {
     setIsLoading(true);
@@ -34,34 +31,13 @@ export const UserPage = ({ match }) => {
     }
   }, []);
 
-  const onSubmit = async (event) => {
-    event.preventDefault();
-    setShouldRedirect(true);
-  };
-
-  const onChange = (event) => {
-    event.persist();
-    setUsername(event.target.value);
-  };
-
-  if (shouldRedirect) {
-    return <Redirect to={username} />;
-  }
-
   return isLoading ? (
     <Spinner size="xl" />
   ) : (
-    <div>
-      <h1>All your repositories</h1>
-      <form onSubmit={onSubmit}>
-        <input
-          type="text"
-          placeholder="enter github username here"
-          onChange={onChange}
-        ></input>
-      </form>
+    <>
+      <UsernameSearchField size="small" />
       <RepoList repos={currentUserRepos} user={user} />
-    </div>
+    </>
   );
 };
 
