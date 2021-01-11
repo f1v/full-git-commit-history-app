@@ -9,6 +9,6 @@ export const userCommitHistoryState = atom({
   key: 'userCommitHistoryState',
   default: {},
   persistence_UNSTABLE: {
-    type: 'userRepoState',
+    type: 'userCommitHistoryState',
   },
 });
