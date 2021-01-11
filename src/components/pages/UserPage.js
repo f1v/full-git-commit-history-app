@@ -6,44 +6,38 @@ import API from '../../utils/api';
 import { RepoList } from '../repo-list/RepoList';
 import { userRepoState } from '../../recoil/atoms/userRepoState';
 import { userCommitHistoryState } from '../../recoil/atoms/userCommitHistoryState';
+import { parseRepoData, parseUserData } from '../../utils/github-data-parser';
 
 export const UserPage = ({ match }) => {
   const { user } = match.params;
   const [userRepos, setUserRepos] = useRecoilState(userRepoState);
-  const [, setUserCommitHistory] = useRecoilState(userCommitHistoryState);
+  const [commitHistory, setUserCommitHistory] = useRecoilState(
+    userCommitHistoryState,
+  );
   const { [user]: currentUserRepos = [] } = userRepos;
   // TODO: rip out our search into its own component
   const [username, setUsername] = useState('');
   let [shouldRedirect, setShouldRedirect] = useState(false);
 
   const getData = async () => {
-    // TODO: rename tempData
-    const tempData = {};
-    const { data: repoData } = await API.getReposData({
-      username: user,
-    });
+    const repoCommits = {};
+    const { data: rawUserData } = await API.getReposData({ username: user });
+    const userData = parseUserData(rawUserData);
 
-    // TODO: remove these excluded repos
-    const excluded = ['public-apis', 'EaselJS'];
-    const reposToFetch = repoData.filter(
-      ({ name }) => !excluded.includes(name),
-    );
-
+    // Loop over all repositories and pick up their commitHistory data
     await Promise.all(
-      reposToFetch.map(async (repo) => {
-        const commitHistoryData = await API.getRepoCommitHistory({
+      userData.map(async ({ name }) => {
+        const rawRepoData = await API.getRepoCommitHistory({
           owner: user,
-          repo: repo.name,
+          repo: name,
         });
-        tempData[repo.name] = commitHistoryData;
+        const repoData = parseRepoData(rawRepoData);
+        repoCommits[name] = repoData;
       }),
     );
 
-    setUserRepos({ ...userRepos, [user]: repoData });
-
-    // TODO: reword tempData variable when removing D3 Chart
-    const userCommitHistory = { [user]: tempData };
-    setUserCommitHistory(userCommitHistory);
+    setUserRepos({ ...userRepos, [user]: userData });
+    setUserCommitHistory({ ...commitHistory, [user]: repoCommits });
   };
 
   useEffect(() => {

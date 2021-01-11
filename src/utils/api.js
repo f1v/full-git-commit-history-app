@@ -12,6 +12,12 @@ const octoRequest = request.defaults({
   },
 });
 
+/**
+ *
+ * @param {Object} param
+ * @param {String} param.username
+ * https://docs.github.com/en/free-pro-team@latest/rest/reference/repos
+ */
 const getReposData = async ({ username }) => {
   return await octoRequest('GET /users/{username}/repos', {
     username,
