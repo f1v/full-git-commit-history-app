@@ -45,7 +45,7 @@ const Repo = ({ repo, user }) => {
 
 export const RepoList = ({ repos, user }) => {
   return repos.length ? (
-    <Box mt="40px" textAlign="left">
+    <Box m="40px 0" textAlign="left">
       <Heading fontSize="32px" mb="14px" textAlign="center">
         Repositories
       </Heading>
