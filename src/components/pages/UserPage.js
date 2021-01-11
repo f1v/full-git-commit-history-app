@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Link, Redirect } from 'react-router-dom';
-import D3Chart from '../chart/D3Chart';
-import API from '../../utils/api';
+import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useRecoilState } from 'recoil';
+import API from '../../utils/api';
+import { RepoList } from '../repo-list/RepoList';
 import { userRepoState } from '../../recoil/atoms/userRepoState';
 import { userCommitHistoryState } from '../../recoil/atoms/userCommitHistoryState';
 
@@ -12,7 +12,6 @@ export const UserPage = ({ match }) => {
   const [userRepos, setUserRepos] = useRecoilState(userRepoState);
   const [, setUserCommitHistory] = useRecoilState(userCommitHistoryState);
   const { [user]: repos = [] } = userRepos;
-  const [d3Data, setD3Data] = useState({});
   // TODO: rip out our search into its own component
   const [username, setUsername] = useState('');
   let [shouldRedirect, setShouldRedirect] = useState(false);
@@ -39,12 +38,6 @@ export const UserPage = ({ match }) => {
         tempData[repo.name] = commitHistoryData;
       }),
     );
-
-    // TODO: de-couple creating chart from getting data
-    const tempD3Data = Object.entries(tempData).map(([key, value]) => {
-      return { name: key, value: value.length };
-    });
-    setD3Data(tempD3Data);
 
     // clone previous userRepos and append new key value pair
     const newUserRepos = Object.assign({}, userRepos);
@@ -87,12 +80,8 @@ export const UserPage = ({ match }) => {
           onChange={onChange}
         ></input>
       </form>
-      {d3Data.length && <D3Chart data={d3Data} key={JSON.stringify(d3Data)} />}
-      {repos.map((repo, index) => (
-        <Link to={`${user}/repo/${repo.name}`} className="link" key={index}>
-          <p>{repo.name}</p>
-        </Link>
-      ))}
+
+      <RepoList repos={repos} user={user} />
     </div>
   );
 };
