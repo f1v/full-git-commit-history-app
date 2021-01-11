@@ -7,8 +7,8 @@
  */
 export const parseUserData = (userData) => {
   return userData.map(
-    ({ name, description, language, pushed_at, stargazers_count }) => {
-      return { name, description, language, pushed_at, stargazers_count };
+    ({ id, name, description, language, pushed_at, stargazers_count }) => {
+      return { id, name, description, language, pushed_at, stargazers_count };
     },
   );
 };
