@@ -7,13 +7,10 @@ import './css/index.scss';
 import { RecoilRoot } from 'recoil';
 import recoilPersist from 'recoil-persist';
 
-const { RecoilPersist, updateState } = recoilPersist(
-  ['userRepoState', 'userCommitHistoryState'], // configurate that atoms will be stored (if empty then all atoms will be stored),
-  {
-    key: 'recoil-persist', // this key is using to store data in local storage
-    storage: localStorage, // configurate which stroage will be used to store the data
-  },
-);
+const { RecoilPersist, updateState } = recoilPersist([
+  'userRepoState',
+  'userCommitHistoryState',
+]);
 
 ReactDOM.render(
   <BrowserRouter>
