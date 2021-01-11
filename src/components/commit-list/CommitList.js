@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { Box, Divider, Flex, Heading, Link, Text } from '@chakra-ui/react';
 
 const Commit = ({ sha, commit, commiter, author, url }) => {
-  console.log('!!! url', url);
-  console.log('!!! commit', commit);
   return (
     <Box mb="12px" maxW="500px">
       <Flex align="baseline" justify="space-between">
@@ -14,9 +12,7 @@ const Commit = ({ sha, commit, commiter, author, url }) => {
           </Text>
         </Link>
       </Flex>
-
       <Text fontSize="14px">{sha}</Text>
-
       {author && <Text fontSize="14px">Authored by {commit.author.name}</Text>}
       {commiter && (
         <Text fontSize="14px">Commited by {commit.commiter.name}</Text>
