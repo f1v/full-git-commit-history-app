@@ -51,7 +51,7 @@ export const UserPage = ({ match }) => {
     Object.assign(newUserRepos, { [user]: repoData });
     setUserRepos(newUserRepos);
 
-    // TODO: reword tempData when removing D3 Chart
+    // TODO: reword tempData variable when removing D3 Chart
     const userCommitHistory = { [user]: tempData };
     setUserCommitHistory(userCommitHistory);
   };
