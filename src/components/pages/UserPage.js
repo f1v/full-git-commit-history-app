@@ -3,16 +3,12 @@ import { Link, Redirect } from 'react-router-dom';
 import D3Chart from '../chart/D3Chart';
 import API from '../../utils/api';
 import PropTypes from 'prop-types';
-import { atom, useRecoilState } from 'recoil';
-
-const userState = atom({
-  key: 'userState',
-  default: {},
-});
+import { useRecoilState } from 'recoil';
+import { userRepoState } from '../../recoil/atoms/userRepoState';
 
 export const UserPage = ({ match }) => {
   const { user } = match.params;
-  const [userRepos, setUserRepos] = useRecoilState(userState);
+  const [userRepos, setUserRepos] = useRecoilState(userRepoState);
   const { [user]: repos = [] } = userRepos;
   const [d3Data, setD3Data] = useState({});
   // TODO: rip out our search into its own component
