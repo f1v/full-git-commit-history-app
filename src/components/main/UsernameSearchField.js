@@ -7,7 +7,9 @@ export const UsernameSearchField = ({ size }) => {
   const history = useHistory();
   const [username, setUsername] = useState('');
   const isFullSize = size === 'full';
-  const labelText = isFullSize ? 'Enter GitHub Username' : 'Seach another user';
+  const labelText = isFullSize
+    ? 'Enter GitHub Username'
+    : 'Search another user';
 
   const onChange = (event) => {
     setUsername(event.target.value);
