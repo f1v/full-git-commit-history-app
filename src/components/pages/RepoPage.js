@@ -6,10 +6,10 @@ import API from '../../utils/api';
 import { parseRepoData } from '../../utils/github-data-parser';
 
 export const RepoPage = ({ match }) => {
+  const { user, repo } = match.params;
   const [commitHistory, setUserCommitHistory] = useRecoilState(
     userCommitHistoryState,
   );
-  const { user, repo } = match.params;
 
   const getData = async () => {
     const rawRepoData = await API.getRepoCommitHistory({
@@ -21,12 +21,7 @@ export const RepoPage = ({ match }) => {
   };
 
   useEffect(() => {
-    if (!commitHistory[user]) {
-      setUserCommitHistory({ ...commitHistory, [user]: {} });
-      return;
-    }
-
-    if (!commitHistory[user][repo]) {
+    if (!commitHistory[user] || !commitHistory[user][repo]) {
       getData();
     }
   }, []);
