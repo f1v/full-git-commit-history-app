@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useRecoilState } from 'recoil';
+import { Spinner } from '@chakra-ui/react';
 import API from '../../utils/api';
 import { RepoList } from '../repo-list/RepoList';
 import { userRepoState } from '../../recoil/atoms/userRepoState';
@@ -10,6 +11,7 @@ import { parseRepoData, parseUserData } from '../../utils/github-data-parser';
 
 export const UserPage = ({ match }) => {
   const { user } = match.params;
+  const [isLoading, setIsLoading] = useState(false);
   const [userRepos, setUserRepos] = useRecoilState(userRepoState);
   const [commitHistory, setUserCommitHistory] = useRecoilState(
     userCommitHistoryState,
@@ -20,6 +22,7 @@ export const UserPage = ({ match }) => {
   let [shouldRedirect, setShouldRedirect] = useState(false);
 
   const getData = async () => {
+    setIsLoading(true);
     const repoCommits = {};
     const { data: rawUserData } = await API.getReposData({ username: user });
     const userData = parseUserData(rawUserData);
@@ -38,6 +41,7 @@ export const UserPage = ({ match }) => {
 
     setUserRepos({ ...userRepos, [user]: userData });
     setUserCommitHistory({ ...commitHistory, [user]: repoCommits });
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -61,7 +65,9 @@ export const UserPage = ({ match }) => {
     return <Redirect to={username} />;
   }
 
-  return (
+  return isLoading ? (
+    <Spinner size="xl" />
+  ) : (
     <div>
       <h1>All your repositories</h1>
       <form onSubmit={onSubmit}>

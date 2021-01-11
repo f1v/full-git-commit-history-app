@@ -24,7 +24,7 @@ const Repo = ({ repo, user }) => {
   ) : null;
 
   return (
-    <Box mb="12px">
+    <Box mb="12px" maxW="500px">
       <Flex align="baseline" justify="space-between">
         <Link as={RouterLink} to={`${user}/repo/${name}`}>
           <Text fontSize="24px">{name}</Text>
@@ -32,7 +32,7 @@ const Repo = ({ repo, user }) => {
         {starsForDisplay}
       </Flex>
 
-      <Text fontSize="14px" mb="10px">
+      <Text fontSize="14px" mb="10px" isTruncated>
         {description}
       </Text>
 
