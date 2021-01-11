@@ -60,16 +60,6 @@ module.exports = {
           to: 'assets/robots.txt',
           toType: 'file',
         },
-        {
-          from: 'public/logo192.png',
-          to: 'assets/logo192.png',
-          toType: 'file',
-        },
-        {
-          from: 'public/logo512.png',
-          to: 'assets/logo512.png',
-          toType: 'file',
-        },
       ],
     }),
     new DotenvPlugin(),
