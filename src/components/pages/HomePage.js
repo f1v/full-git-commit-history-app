@@ -10,7 +10,8 @@ export const HomePage = () => {
     setUsername(event.target.value);
   };
 
-  const onSubmit = () => {
+  const onSubmit = (event) => {
+    event.preventDefault();
     username && history.push(`/user/${username}`);
   };
 

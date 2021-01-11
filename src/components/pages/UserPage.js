@@ -11,7 +11,7 @@ export const UserPage = ({ match }) => {
   const { user } = match.params;
   const [userRepos, setUserRepos] = useRecoilState(userRepoState);
   const [, setUserCommitHistory] = useRecoilState(userCommitHistoryState);
-  const { [user]: repos = [] } = userRepos;
+  const { [user]: currentUserRepos = [] } = userRepos;
   // TODO: rip out our search into its own component
   const [username, setUsername] = useState('');
   let [shouldRedirect, setShouldRedirect] = useState(false);
@@ -39,10 +39,7 @@ export const UserPage = ({ match }) => {
       }),
     );
 
-    // clone previous userRepos and append new key value pair
-    const newUserRepos = Object.assign({}, userRepos);
-    Object.assign(newUserRepos, { [user]: repoData });
-    setUserRepos(newUserRepos);
+    setUserRepos({ ...userRepos, [user]: repoData });
 
     // TODO: reword tempData variable when removing D3 Chart
     const userCommitHistory = { [user]: tempData };
@@ -51,7 +48,7 @@ export const UserPage = ({ match }) => {
 
   useEffect(() => {
     // only getData if its not already populated
-    if (!repos.length) {
+    if (!currentUserRepos.length) {
       getData();
     }
   }, []);
@@ -80,8 +77,7 @@ export const UserPage = ({ match }) => {
           onChange={onChange}
         ></input>
       </form>
-
-      <RepoList repos={repos} user={user} />
+      <RepoList repos={currentUserRepos} user={user} />
     </div>
   );
 };
