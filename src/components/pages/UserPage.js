@@ -6,16 +6,12 @@ import { Spinner } from '@chakra-ui/react';
 import API from '../../utils/api';
 import { RepoList } from '../repo-list/RepoList';
 import { userRepoState } from '../../recoil/atoms/userRepoState';
-import { userCommitHistoryState } from '../../recoil/atoms/userCommitHistoryState';
-import { parseRepoData, parseUserData } from '../../utils/github-data-parser';
+import { parseUserData } from '../../utils/github-data-parser';
 
 export const UserPage = ({ match }) => {
   const { user } = match.params;
   const [isLoading, setIsLoading] = useState(false);
   const [userRepos, setUserRepos] = useRecoilState(userRepoState);
-  const [commitHistory, setUserCommitHistory] = useRecoilState(
-    userCommitHistoryState,
-  );
   const { [user]: currentUserRepos = [] } = userRepos;
   // TODO: rip out our search into its own component
   const [username, setUsername] = useState('');
@@ -23,24 +19,11 @@ export const UserPage = ({ match }) => {
 
   const getData = async () => {
     setIsLoading(true);
-    const repoCommits = {};
+
     const { data: rawUserData } = await API.getReposData({ username: user });
     const userData = parseUserData(rawUserData);
 
-    // Loop over all repositories and pick up their commitHistory data
-    await Promise.all(
-      userData.map(async ({ name }) => {
-        const rawRepoData = await API.getRepoCommitHistory({
-          owner: user,
-          repo: name,
-        });
-        const repoData = parseRepoData(rawRepoData);
-        repoCommits[name] = repoData;
-      }),
-    );
-
     setUserRepos({ ...userRepos, [user]: userData });
-    setUserCommitHistory({ ...commitHistory, [user]: repoCommits });
     setIsLoading(false);
   };
 
