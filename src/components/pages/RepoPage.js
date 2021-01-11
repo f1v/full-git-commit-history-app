@@ -23,6 +23,7 @@ export const RepoPage = ({ match }) => {
   useEffect(() => {
     if (!commitHistory[user]) {
       setUserCommitHistory({ ...commitHistory, [user]: {} });
+      return;
     }
 
     if (!commitHistory[user][repo]) {
