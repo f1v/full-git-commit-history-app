@@ -13,7 +13,7 @@ const Repo = ({ repo, user }) => {
     pushed_at: pushedAt,
     stargazers_count: stars,
   } = repo;
-  const updatedAtForDisplay = moment(pushedAt).fromNow();
+  const updatedAtForDisplay = `Updated ${moment(pushedAt).fromNow()}`;
   const starsForDisplay = stars ? (
     <Flex align="baseline">
       <StarIcon boxSize="14px" />
