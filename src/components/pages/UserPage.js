@@ -17,9 +17,8 @@ export const UserPage = ({ match }) => {
   const [username, setUsername] = useState('');
   let [shouldRedirect, setShouldRedirect] = useState(false);
 
-  console.log('!!! userRepos', userRepos);
-
   const getData = async () => {
+    // TODO: rename tempData
     const tempData = {};
     const { data: repoData } = await API.getReposData({
       username: user,
@@ -37,7 +36,6 @@ export const UserPage = ({ match }) => {
           owner: user,
           repo: repo.name,
         });
-        console.log('!!! commitHisoryData', commitHistoryData);
         tempData[repo.name] = commitHistoryData;
       }),
     );
