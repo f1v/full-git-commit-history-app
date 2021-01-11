@@ -57,6 +57,7 @@
     "eslint-plugin-prettier": "^3.2.0",
     "eslint-plugin-react": "^6.0.0",
     "prettier": "^2.2.1",
+    "recoil-persist": "^0.8.0",
     "webpack": "^4.44.2",
     "webpack-cli": "^3.3.12"
   }

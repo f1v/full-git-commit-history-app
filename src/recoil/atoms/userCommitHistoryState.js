@@ -8,4 +8,7 @@ import { atom } from 'recoil';
 export const userCommitHistoryState = atom({
   key: 'userCommitHistoryState',
   default: {},
+  persistence_UNSTABLE: {
+    type: 'userRepoState',
+  },
 });

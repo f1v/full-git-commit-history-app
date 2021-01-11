@@ -7,4 +7,7 @@ import { atom } from 'recoil';
 export const userRepoState = atom({
   key: 'userRepoState',
   default: {},
+  persistence_UNSTABLE: {
+    type: 'userRepoState',
+  },
 });
