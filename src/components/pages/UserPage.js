@@ -3,11 +3,14 @@ import { Link, Redirect } from 'react-router-dom';
 import D3Chart from '../chart/D3Chart';
 import API from '../../utils/api';
 import PropTypes from 'prop-types';
+import { useRecoilState } from 'recoil';
+import { userRepoState } from '../../recoil/atoms/userRepoState';
 
 export const UserPage = ({ match }) => {
-  const [repos, setRepos] = useState([]);
-  const [d3Data, setD3Data] = useState({});
   const { user } = match.params;
+  const [userRepos, setUserRepos] = useRecoilState(userRepoState);
+  const { [user]: repos = [] } = userRepos;
+  const [d3Data, setD3Data] = useState({});
   // TODO: rip out our search into its own component
   const [username, setUsername] = useState('');
   let [shouldRedirect, setShouldRedirect] = useState(false);
@@ -34,16 +37,23 @@ export const UserPage = ({ match }) => {
       }),
     );
 
+    // TODO: de-couple creating chart from getting data
     const tempD3Data = Object.entries(tempData).map(([key, value]) => {
       return { name: key, value: value.length };
     });
     setD3Data(tempD3Data);
-    setRepos(repoData);
+
+    // clone previous userRepos and append new key value pair
+    const newUserRepos = Object.assign({}, userRepos);
+    Object.assign(newUserRepos, { [user]: repoData });
+    setUserRepos(newUserRepos);
   };
 
   useEffect(() => {
-    getData();
-    return () => {};
+    // only getData if its not already populated
+    if (!repos.length) {
+      getData();
+    }
   }, []);
 
   const onSubmit = async (event) => {
