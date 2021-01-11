@@ -5,10 +5,12 @@ import API from '../../utils/api';
 import PropTypes from 'prop-types';
 import { useRecoilState } from 'recoil';
 import { userRepoState } from '../../recoil/atoms/userRepoState';
+import { userCommitHistoryState } from '../../recoil/atoms/userCommitHistoryState';
 
 export const UserPage = ({ match }) => {
   const { user } = match.params;
   const [userRepos, setUserRepos] = useRecoilState(userRepoState);
+  const [, setUserCommitHistory] = useRecoilState(userCommitHistoryState);
   const { [user]: repos = [] } = userRepos;
   const [d3Data, setD3Data] = useState({});
   // TODO: rip out our search into its own component
@@ -16,6 +18,7 @@ export const UserPage = ({ match }) => {
   let [shouldRedirect, setShouldRedirect] = useState(false);
 
   const getData = async () => {
+    // TODO: rename tempData
     const tempData = {};
     const { data: repoData } = await API.getReposData({
       username: user,
@@ -47,6 +50,10 @@ export const UserPage = ({ match }) => {
     const newUserRepos = Object.assign({}, userRepos);
     Object.assign(newUserRepos, { [user]: repoData });
     setUserRepos(newUserRepos);
+
+    // TODO: reword tempData variable when removing D3 Chart
+    const userCommitHistory = { [user]: tempData };
+    setUserCommitHistory(userCommitHistory);
   };
 
   useEffect(() => {
