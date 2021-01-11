@@ -3,39 +3,21 @@ import { Link, Redirect } from 'react-router-dom';
 import D3Chart from '../chart/D3Chart';
 import API from '../../utils/api';
 import PropTypes from 'prop-types';
+import { atom, useRecoilState } from 'recoil';
 
-import { atom, selector, useRecoilState, useRecoilValue } from 'recoil';
-
-const usersState = atom({
-  key: 'usersState', // unique ID (with respect to other atoms/selectors)
-  default: [], // default value (aka initial value)
+const userState = atom({
+  key: 'userState',
+  default: {},
 });
-
-window.usersState = usersState;
-
-// we want to lookup a user, save their repo data, and look up another user
-// the first users repo data should be saved so if we go back,
-// their repo data is already in our usersState
-
-/*
-{
-  [user]: [repos],
-  a: [{},{}]
-}
-
-*/
 
 export const UserPage = ({ match }) => {
   const { user } = match.params;
-  // const [{ [user]: repos = [] }, setRepos] = useRecoilState(usersState);
-  const [repos, setRepos] = useRecoilState(usersState);
+  const [userRepos, setUserRepos] = useRecoilState(userState);
+  const { [user]: repos = [] } = userRepos;
   const [d3Data, setD3Data] = useState({});
   // TODO: rip out our search into its own component
   const [username, setUsername] = useState('');
   let [shouldRedirect, setShouldRedirect] = useState(false);
-
-  console.log(repos);
-  window.repos = repos;
 
   const getData = async () => {
     const tempData = {};
@@ -64,8 +46,11 @@ export const UserPage = ({ match }) => {
       return { name: key, value: value.length };
     });
     setD3Data(tempD3Data);
-    // setRepos({ [user]: repoData });
-    setRepos(repoData);
+
+    // clone previous userRepos and append new key value pair
+    const newUserRepos = Object.assign({}, userRepos);
+    Object.assign(newUserRepos, { [user]: repoData });
+    setUserRepos(newUserRepos);
   };
 
   useEffect(() => {
