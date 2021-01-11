@@ -1,9 +1,9 @@
 import { request } from '@octokit/request';
 const TOKEN = process.env.REACT_APP_GITHUB_TOKEN;
 
-/*
-  github API endpoints:
-  https://docs.github.com/en/free-pro-team@latest/rest/overview/endpoints-available-for-github-apps
+/* 
+github API endpoints:
+https://docs.github.com/en/free-pro-team@latest/rest/overview/endpoints-available-for-github-apps
 */
 
 const octoRequest = request.defaults({
