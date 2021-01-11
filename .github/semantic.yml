@@ -28,7 +28,9 @@ scopes:
   - home-page
   - netlify
   - prettier
+  - react-query
   - readme
+  - recoil
   - repo-page
   - revert
   - user-page
