@@ -13,6 +13,10 @@ const usersState = atom({
 
 window.usersState = usersState;
 
+// we want to lookup a user, save their repo data, and look up another user
+// the first users repo data should be saved so if we go back,
+// their repo data is already in our usersState
+
 /*
 {
   [user]: [repos],
