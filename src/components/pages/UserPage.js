@@ -77,7 +77,6 @@ export const UserPage = ({ match }) => {
           onChange={onChange}
         ></input>
       </form>
-
       <RepoList repos={currentUserRepos} user={user} />
     </div>
   );
