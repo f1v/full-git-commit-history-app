@@ -17,7 +17,7 @@ export const RepoPage = ({ match }) => {
       repo,
     });
     const repoCommits = parseRepoData(rawRepoData);
-    setUserCommitHistory({ ...commitHistory, [user]: repoCommits });
+    setUserCommitHistory({ ...commitHistory, [repo]: repoCommits });
   };
 
   useEffect(() => {
