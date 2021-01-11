@@ -34,9 +34,11 @@ export const RepoPage = ({ match }) => {
     <div>
       <h1>{repo}</h1>
       <h1>{user}</h1>
-      {commitHistory[user][repo].map((commitData) => {
-        return <div key={commitData.sha}>{commitData.commit.message}</div>;
-      })}
+      {commitHistory[user] && commitHistory[user][repo]
+        ? commitHistory[user][repo].map((commitData) => {
+            return <div key={commitData.sha}>{commitData.commit.message}</div>;
+          })
+        : null}
     </div>
   );
 };
