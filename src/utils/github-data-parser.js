@@ -21,7 +21,9 @@ export const parseUserData = (userData) => {
  *
  */
 export const parseRepoData = (repoData) => {
-  return repoData.map(({ sha, commit: { author, message, avatar_url } }) => {
-    return { sha, commit: { author, message, avatar_url } };
-  });
+  return repoData.map(
+    ({ commit: { author, commiter, message, url }, html_url, sha }) => {
+      return { commit: { author, commiter, message, url }, html_url, sha };
+    },
+  );
 };
