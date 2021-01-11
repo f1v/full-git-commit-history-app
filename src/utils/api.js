@@ -24,6 +24,16 @@ const getReposData = async ({ username }) => {
   });
 };
 
+/**
+ *
+ * @param {Object} param
+ * @param {String} param.owner github username; e.g. facebook
+ * @param {String} param.repo github repo for that username; e.g react
+ * @param {String} param.sha commit SHA
+ * @param {Array} param.data list of github api Objects
+ * @param {Number} param.escapeCount fallback counter to prevent gathering too many commits
+ * https://docs.github.com/en/free-pro-team@latest/rest/reference/repos#list-commits
+ */
 const getRepoCommitHistory = async ({
   owner,
   repo,
