@@ -1,4 +1,11 @@
-import { Flex, Heading, Select } from '@chakra-ui/react';
+import {
+  Flex,
+  FormControl,
+  FormLabel,
+  Heading,
+  Select,
+  Switch,
+} from '@chakra-ui/react';
 import React, { useEffect, useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useRecoilState } from 'recoil';
@@ -14,6 +21,7 @@ export const UserPage = ({ match }) => {
   const { setIsLoading } = useContext(AppContext);
   const [userRepos, setUserRepos] = useRecoilState(userRepoState);
   const { [user]: currentUserRepos = [] } = userRepos;
+  const [shouldShowForks, setShouldShowForks] = useState(false);
 
   const getData = async () => {
     setIsLoading(true);
@@ -54,6 +62,29 @@ export const UserPage = ({ match }) => {
     </Flex>
   );
 
+  const onToggleSwitch = () => {
+    setShouldShowForks(!shouldShowForks);
+  };
+
+  const ShowForksSwitch = () => (
+    <FormControl
+      display="flex"
+      alignItems="baseline"
+      justifyContent="flex-end"
+      w="550px"
+    >
+      <FormLabel color="#808080" htmlFor="fork-switch" mb="0">
+        Show Forks
+      </FormLabel>
+      <Switch
+        isChecked={shouldShowForks}
+        id="fork-switch"
+        size="sm"
+        onChange={onToggleSwitch}
+      />
+    </FormControl>
+  );
+
   return (
     <>
       <Flex align="center" justify="space-between" mt="25px" w="550px">
@@ -61,7 +92,14 @@ export const UserPage = ({ match }) => {
         <SelectDropdown />
       </Flex>
 
-      <RepoList repos={currentUserRepos} sortType={sortType} user={user} />
+      <ShowForksSwitch shouldShowForks={shouldShowForks} />
+
+      <RepoList
+        repos={currentUserRepos}
+        shouldShowForks={shouldShowForks}
+        sortType={sortType}
+        user={user}
+      />
     </>
   );
 };
