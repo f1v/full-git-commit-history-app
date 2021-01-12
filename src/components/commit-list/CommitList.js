@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Box, Divider, Flex, Link, Text } from '@chakra-ui/react';
+import moment from 'moment';
 
 const Commit = ({ sha, commit, commiter, author, url }) => {
   return (
@@ -17,13 +18,16 @@ const Commit = ({ sha, commit, commiter, author, url }) => {
       {commiter && (
         <Text fontSize="14px">Commited by {commit.commiter.name}</Text>
       )}
-      <Text fontSize="14px">Commited on {commit.author.date}</Text>
+      <Text fontSize="14px">
+        Commited on{' '}
+        {moment(commit.author.date).format('MMM Do YYYY, h:mm:ss a')}
+      </Text>
       <Divider mt="12px" />
     </Box>
   );
 };
 
-export const CommitList = ({ commits, repo }) => {
+export const CommitList = ({ commits }) => {
   return commits.length ? (
     <Box mt="40px" textAlign="left">
       {commits.map(({ author, commit, commiter, html_url, sha }) => (
@@ -42,7 +46,6 @@ export const CommitList = ({ commits, repo }) => {
 
 CommitList.propTypes = {
   commits: PropTypes.arrayOf(PropTypes.object),
-  repo: PropTypes.string,
 };
 
 Commit.propTypes = {

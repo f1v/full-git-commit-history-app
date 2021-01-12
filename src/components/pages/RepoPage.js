@@ -58,7 +58,7 @@ export const RepoPage = ({ match }) => {
           {user}
         </Link>
       </Heading>
-      <CommitList commits={commits} repo={repo} />
+      <CommitList commits={commits} />
     </div>
   );
 };
