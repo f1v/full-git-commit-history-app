@@ -15,6 +15,7 @@ import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
 import { sortReposList } from '../../utils';
+import { GithubForkIcon } from '../main/GithubForkIcon';
 
 const Repo = ({ repo, user, shouldShowForks }) => {
   const { description, language, name, pushedAt, numStars, fork } = repo;
@@ -40,6 +41,7 @@ const Repo = ({ repo, user, shouldShowForks }) => {
           <Text fontSize="24px">{name}</Text>
         </Link>
         {starsForDisplay}
+        {fork && <GithubForkIcon />}
       </Flex>
 
       <Text fontSize="14px" mb="10px" isTruncated>

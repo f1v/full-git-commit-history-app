@@ -5,7 +5,6 @@ import { Link as RouterLink } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 
 import { AppContext } from '../../contexts/AppContext';
-import { UsernameSearchField } from '../main/UsernameSearchField';
 import { userCommitHistoryState } from '../../recoil/atoms/userCommitHistoryState';
 import { API, parseRepoData } from '../../utils';
 import { CommitList } from '../commit-list/CommitList';
