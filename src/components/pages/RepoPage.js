@@ -5,6 +5,8 @@ import { userCommitHistoryState } from '../../recoil/atoms/userCommitHistoryStat
 import API from '../../utils/api';
 import { parseRepoData } from '../../utils/github-data-parser';
 import { CommitList } from '../commit-list/CommitList';
+import { Link as RouterLink } from 'react-router-dom';
+import { Box, Divider, Flex, Heading, Link, Text } from '@chakra-ui/react';
 
 export const RepoPage = ({ match }) => {
   const { user, repo } = match.params;
@@ -27,13 +29,17 @@ export const RepoPage = ({ match }) => {
     }
   }, []);
 
+  const commits = (commitHistory[user] && commitHistory[user][repo]) || [];
+
   return (
     <div>
-      <h1>{repo}</h1>
-      <h1>{user}</h1>
-      {commitHistory[user] && commitHistory[user][repo] ? (
-        <CommitList commits={commitHistory[user][repo]} repo={repo} />
-      ) : null}
+      <Heading fontSize="32px" mb="14px" textAlign="center">
+        {repo} by{' '}
+        <Link as={RouterLink} to={`/user/${user}`}>
+          {user}
+        </Link>
+      </Heading>
+      <CommitList commits={commits} repo={repo} />
     </div>
   );
 };

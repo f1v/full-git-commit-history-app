@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Box, Divider, Flex, Heading, Link, Text } from '@chakra-ui/react';
+import { Box, Divider, Flex, Link, Text } from '@chakra-ui/react';
 
 const Commit = ({ sha, commit, commiter, author, url }) => {
   return (
@@ -26,9 +26,6 @@ const Commit = ({ sha, commit, commiter, author, url }) => {
 export const CommitList = ({ commits, repo }) => {
   return commits.length ? (
     <Box mt="40px" textAlign="left">
-      <Heading fontSize="32px" mb="14px" textAlign="center">
-        {repo}
-      </Heading>
       {commits.map(({ author, commit, commiter, html_url, sha }) => (
         <Commit
           key={sha}
