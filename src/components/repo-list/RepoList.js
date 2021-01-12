@@ -28,19 +28,27 @@ const Repo = ({ repo, user, shouldShowForks }) => {
   return (
     <Box mb="12px" w="550px">
       <Flex align="baseline" justify="space-between">
-        <Link as={RouterLink} to={`${user}/repo/${name}`}>
-          <Text fontSize="24px">{name}</Text>
+        <Link
+          as={RouterLink}
+          to={`${user}/repo/${name}`}
+          textDecoration="underline"
+        >
+          <Text fontSize="20px">{name}</Text>
         </Link>
         {starsForDisplay}
         {fork && <GithubForkIcon />}
       </Flex>
 
-      <Text fontSize="14px" mb="10px" isTruncated>
+      <Text color="#808080" fontSize="14px" mb="10px" isTruncated>
         {description}
       </Text>
 
-      <Text fontSize="14px">{language}</Text>
-      <Text fontSize="14px">{updatedAtForDisplay}</Text>
+      <Text color="#808080" fontSize="14px">
+        {language}
+      </Text>
+      <Text color="#808080" fontSize="14px">
+        {updatedAtForDisplay}
+      </Text>
       <Divider borderColor="#808080" mt="12px" />
     </Box>
   );

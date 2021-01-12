@@ -11,16 +11,26 @@ const Commit = ({ githubCommitObject }) => {
   return (
     <Box mb="12px" w="550px">
       <Flex align="baseline" justify="space-between">
-        <Link href={url} isExternal>
-          <Text fontSize="24px" maxW="550px" mb="10px" isTruncated>
+        <Link href={url} textDecoration="underline" isExternal>
+          <Text fontSize="20px" maxW="550px" mb="10px" isTruncated>
             {message}
           </Text>
         </Link>
       </Flex>
-      <Text fontSize="14px">{sha}</Text>
-      {author && <Text fontSize="14px">Authored by {author.name}</Text>}
-      {commiter && <Text fontSize="14px">Commited by {commiter.name}</Text>}
-      <Text fontSize="14px">
+      <Text color="#808080" fontSize="14px">
+        {sha}
+      </Text>
+      {author && (
+        <Text color="#808080" fontSize="14px">
+          Authored by {author.name}
+        </Text>
+      )}
+      {commiter && (
+        <Text color="#808080" fontSize="14px">
+          Commited by {commiter.name}
+        </Text>
+      )}
+      <Text color="#808080" fontSize="14px">
         Commited on {moment(author.date).format('MMM Do YYYY, h:mm:ss a')}
       </Text>
       <Divider mt="12px" />
@@ -30,22 +40,25 @@ const Commit = ({ githubCommitObject }) => {
 
 export const CommitList = ({ commits, branches, user, repo }) => {
   const history = useHistory();
-  const [shouldRedirect, setShouldRedirect] = useState(false);
-  const [branch, setBranch] = useState('');
 
   const onSelect = (event) => {
     event.preventDefault();
     // convert to base64 to retain backslash characters
-    const selectedBranch = window.btoa(event.target.value);
-    setShouldRedirect(true);
-    setBranch(selectedBranch);
+    const branch = window.btoa(event.target.value);
+    history.push(`/user/${user}/repo/${repo}/branch/${branch}`);
   };
 
   const SelectDropdown = () => {
     // TODO: add functionality for the edge case where a repo starts with main branch instead of master
     return (
       <Flex justifyContent="flex-end" mb="12px">
-        <Select fontSize="15px" onChange={onSelect} w="160px">
+        <Select
+          borderColor="#808080"
+          color="#808080"
+          fontSize="15px"
+          onChange={onSelect}
+          w="160px"
+        >
           <option value="master">master</option>
           {branches.map((branchName, index) => {
             return (
@@ -58,10 +71,6 @@ export const CommitList = ({ commits, branches, user, repo }) => {
       </Flex>
     );
   };
-
-  if (shouldRedirect) {
-    return <Redirect to={`/user/${user}/repo/${repo}/branch/${branch}`} />;
-  }
 
   return commits.length ? (
     <>
