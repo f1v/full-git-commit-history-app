@@ -1,13 +1,10 @@
 import { Box, Flex, Input, Text } from '@chakra-ui/react';
-import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-export const UsernameSearchField = ({ size }) => {
+export const UsernameSearchField = () => {
   const history = useHistory();
   const [username, setUsername] = useState('');
-  const isFullSize = size === 'full';
-  const labelText = isFullSize ? 'Search GitHub Repositories and Commits' : '';
 
   const onChange = (event) => {
     setUsername(event.target.value);
@@ -19,33 +16,21 @@ export const UsernameSearchField = ({ size }) => {
   };
 
   return (
-    <Box as="form" mt={isFullSize ? '0' : '18px'} onSubmit={onSubmit}>
+    <Box as="form" onSubmit={onSubmit}>
       <Flex align="center" direction="column">
-        <Text
-          as="label"
-          fontSize={isFullSize ? '28px' : '18px'}
-          htmlFor="username"
-          mb={isFullSize ? '12px' : '4px'}
-        >
-          {labelText}
+        <Text as="label" fontSize="28px" htmlFor="username" mb="12px">
+          Search GitHub Repositories and Commits
         </Text>
         <Input
-          fontSize={isFullSize ? '24px' : '14px'}
-          h={isFullSize ? '60px' : '40px'}
+          fontSize="24px"
+          h="60px"
           id="username"
           onChange={onChange}
-          placeholder={
-            isFullSize ? 'Enter GitHub username' : 'Search another user'
-          }
+          placeholder="Enter GitHub username"
           textAlign="center"
-          w={isFullSize ? '350px' : '200px'}
+          w="350px"
         />
       </Flex>
     </Box>
   );
-};
-
-// Full size is used on HomePage. Small size is used on UserPage.
-UsernameSearchField.propTypes = {
-  size: PropTypes.oneOf(['full', 'small']),
 };

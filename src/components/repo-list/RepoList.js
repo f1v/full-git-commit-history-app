@@ -3,9 +3,7 @@ import {
   Box,
   Divider,
   Flex,
-  Heading,
   Link,
-  Select,
   Text,
   Switch,
   FormControl,
@@ -50,47 +48,23 @@ const Repo = ({ repo, user, shouldShowForks }) => {
 
       <Text fontSize="14px">{language}</Text>
       <Text fontSize="14px">{updatedAtForDisplay}</Text>
-      <Divider mt="12px" />
+      <Divider borderColor="#808080" mt="12px" />
     </Box>
   );
 };
 
-export const RepoList = ({ repos, user }) => {
-  const [sortType, setSortType] = useState('lastUpdated');
+export const RepoList = ({ repos, user, sortType }) => {
   const [shouldShowForks, setShouldShowForks] = useState(false);
-
-  const onSortChange = (event) => {
-    const sortValue = event.target.value;
-    setSortType(sortValue);
-  };
 
   const onToggleSwitch = () => {
     setShouldShowForks(!shouldShowForks);
   };
 
-  const SelectDropdown = () => (
-    <Flex justifyContent="flex-end" mb="12px">
-      <Select
-        fontSize="15px"
-        onChange={onSortChange}
-        value={sortType}
-        w="160px"
-      >
-        <option value="lastUpdated">Last Updated</option>
-        <option value="alphabetical">Alphabetical</option>
-        <option value="numStars">Star Count</option>
-      </Select>
-    </Flex>
-  );
-
   return repos.length ? (
     <Box m="40px 0" textAlign="left">
-      <Heading fontSize="28px" mb="16px" textAlign="center">
-        {user}'s Repositories
-      </Heading>
       <FormControl display="flex" alignItems="center">
         <FormLabel htmlFor="fork-switch" mb="0">
-          Show Forked Repositories
+          Show Forks
         </FormLabel>
         <Switch
           id="fork-switch"
@@ -99,8 +73,7 @@ export const RepoList = ({ repos, user }) => {
           value={shouldShowForks}
         />
       </FormControl>
-      <SelectDropdown />
-
+      <Divider borderColor="#808080" mb="24px" />
       {sortReposList(repos, sortType).map((repo) => (
         <Repo
           key={repo.id}
@@ -122,4 +95,5 @@ Repo.propTypes = {
 RepoList.propTypes = {
   repos: PropTypes.array,
   user: PropTypes.string,
+  sortType: PropTypes.string,
 };
