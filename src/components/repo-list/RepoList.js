@@ -72,7 +72,7 @@ export const RepoList = ({ repos, user }) => {
 
       <SelectFilter />
 
-      {filterRepos(repoFilter)(repos).map((repo) => (
+      {filterRepos(repos, repoFilter).map((repo) => (
         <Repo key={repo.id} repo={repo} user={user} />
       ))}
     </Box>
