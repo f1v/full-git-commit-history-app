@@ -12,6 +12,9 @@ import { SwitchUserButton } from '../main/SwitchUserButton';
 export const RepoPage = ({ match }) => {
   const { user, repo, branch: branchName } = match.params;
   const branch = branchName && window.atob(branchName);
+  const baseURL = 'https://github.com';
+  const userURL = `${baseURL}/${user}`;
+  const repoURL = `${userURL}/${repo}`;
 
   const [branchCommitHistory, setBranchCommitHistory] = useState([]);
   const [branches, setBranches] = useState([]);
@@ -27,10 +30,6 @@ export const RepoPage = ({ match }) => {
   } else {
     commits = (commitHistory[user] && commitHistory[user][repo]) || [];
   }
-
-  const baseURL = 'https://github.com';
-  const userURL = `${baseURL}/${user}`;
-  const repoURL = `${userURL}/${repo}`;
 
   /**
    * picks up to full commit history for a repo's main branch
