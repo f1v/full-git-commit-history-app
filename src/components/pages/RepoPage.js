@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useRecoilState } from 'recoil';
+import { Spinner } from '@chakra-ui/react';
 import { userCommitHistoryState } from '../../recoil/atoms/userCommitHistoryState';
 import API from '../../utils/api';
 import { parseRepoData } from '../../utils/github-data-parser';
@@ -10,17 +11,20 @@ import { Box, Divider, Flex, Heading, Link, Text } from '@chakra-ui/react';
 
 export const RepoPage = ({ match }) => {
   const { user, repo } = match.params;
+  const [isLoading, setIsLoading] = useState(false);
   const [commitHistory, setUserCommitHistory] = useRecoilState(
     userCommitHistoryState,
   );
 
   const getData = async () => {
+    setIsLoading(true);
     const rawRepoData = await API.getRepoCommitHistory({
       owner: user,
       repo,
     });
     const repoCommits = parseRepoData(rawRepoData);
     setUserCommitHistory({ ...commitHistory, [user]: { [repo]: repoCommits } });
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -34,7 +38,9 @@ export const RepoPage = ({ match }) => {
   const userURL = `${baseURL}/${user}`;
   const repoURL = `${userURL}/${repo}`;
 
-  return (
+  return isLoading ? (
+    <Spinner size="xl" />
+  ) : (
     <div>
       <Heading as="h5" my="30" size="md">
         <Link as={RouterLink} to={`/user/${user}`}>

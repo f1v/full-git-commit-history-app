@@ -4,10 +4,10 @@ import { Box, Divider, Flex, Link, Text } from '@chakra-ui/react';
 
 const Commit = ({ sha, commit, commiter, author, url }) => {
   return (
-    <Box mb="12px" maxW="500px">
+    <Box mb="12px" w="550px">
       <Flex align="baseline" justify="space-between">
         <Link href={url} isExternal>
-          <Text fontSize="24px" mb="10px" isTruncated>
+          <Text fontSize="24px" maxW="550px" mb="10px" isTruncated>
             {commit.message}
           </Text>
         </Link>

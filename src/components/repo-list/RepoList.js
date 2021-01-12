@@ -24,7 +24,7 @@ const Repo = ({ repo, user }) => {
   ) : null;
 
   return (
-    <Box mb="12px" maxW="500px">
+    <Box mb="12px" w="550px">
       <Flex align="baseline" justify="space-between">
         <Link as={RouterLink} to={`${user}/repo/${name}`}>
           <Text fontSize="24px">{name}</Text>
@@ -46,8 +46,8 @@ const Repo = ({ repo, user }) => {
 export const RepoList = ({ repos, user }) => {
   return repos.length ? (
     <Box m="40px 0" textAlign="left">
-      <Heading fontSize="32px" mb="14px" textAlign="center">
-        Repositories
+      <Heading fontSize="28px" mb="24px" textAlign="center">
+        {user}'s Repositories
       </Heading>
       {repos.map((repo) => (
         <Repo key={repo.id} repo={repo} user={user} />
