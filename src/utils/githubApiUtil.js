@@ -101,7 +101,9 @@ const getRepoBranches = async ({ owner, repo }) => {
  */
 const getBranchCommitHistory = async ({ owner, repo, branch = 'master' }) => {
   const {
-    data: { commit: sha },
+    data: {
+      commit: { sha },
+    },
   } = await octoRequest(`GET /repos/{owner}/{repo}/branches/{branch}`, {
     owner,
     repo,

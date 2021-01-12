@@ -1,7 +1,8 @@
 import { Box, Divider, Flex, Link, Text, Select } from '@chakra-ui/react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
+import { Redirect, useHistory } from 'react-router-dom';
 
 const Commit = ({ githubCommitObject }) => {
   const { sha, commit, html_url: url } = githubCommitObject;
@@ -37,31 +38,40 @@ const Commit = ({ githubCommitObject }) => {
   );
 };
 
-export const CommitList = ({ commits, branches }) => {
+export const CommitList = ({ commits, branches, user, repo, branch }) => {
+  const history = useHistory();
+
   const onSelect = (event) => {
-    // TODO: selecting a branch should reload the page to that branch
     event.preventDefault();
+    // convert to base64 to retain backslash characters
+    const branch = window.btoa(event.target.value);
+    history.push(`/user/${user}/repo/${repo}/branch/${branch}`);
   };
 
-  const SelectDropdown = () => (
-    <Flex justifyContent="flex-end" mb="25px">
-      <Select
-        borderColor="#808080"
-        color="#808080"
-        fontSize="15px"
-        onChange={onSelect}
-        w="160px"
-      >
-        {branches.map((branchName, index) => {
-          return (
-            <option key={index} value={branchName}>
-              {branchName}
-            </option>
-          );
-        })}
-      </Select>
-    </Flex>
-  );
+  const SelectDropdown = () => {
+    // TODO: add functionality for the edge case where a repo starts with main branch instead of master
+    return (
+      <Flex justifyContent="flex-end" mb="25px">
+        <Select
+          borderColor="#808080"
+          color="#808080"
+          fontSize="15px"
+          onChange={onSelect}
+          w="160px"
+          value={branch}
+        >
+          <option value="master">master</option>
+          {branches.map((branchName, index) => {
+            return (
+              <option key={index} value={branchName}>
+                {branchName}
+              </option>
+            );
+          })}
+        </Select>
+      </Flex>
+    );
+  };
 
   return commits.length ? (
     <>
@@ -78,6 +88,9 @@ export const CommitList = ({ commits, branches }) => {
 CommitList.propTypes = {
   commits: PropTypes.arrayOf(PropTypes.object),
   branches: PropTypes.arrayOf(PropTypes.string),
+  user: PropTypes.string,
+  repo: PropTypes.string,
+  branch: PropTypes.string,
 };
 
 Commit.propTypes = {
