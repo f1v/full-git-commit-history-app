@@ -1,14 +1,23 @@
 import { StarIcon } from '@chakra-ui/icons';
-import { Box, Divider, Flex, Link, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Divider,
+  Flex,
+  Link,
+  Text,
+  Switch,
+  FormControl,
+  FormLabel,
+} from '@chakra-ui/react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
 import { sortReposList } from '../../utils';
 
-const Repo = ({ repo, user }) => {
-  const { description, language, name, pushedAt, numStars } = repo;
+const Repo = ({ repo, user, shouldShowForks }) => {
+  const { description, language, name, pushedAt, numStars, fork } = repo;
   const updatedAtForDisplay = `Updated ${moment(pushedAt).fromNow()}`;
   const starsForDisplay = numStars ? (
     <Flex align="baseline">
@@ -18,6 +27,11 @@ const Repo = ({ repo, user }) => {
       </Text>
     </Flex>
   ) : null;
+
+  if (fork && !shouldShowForks) {
+    // by default, do not render forked repos
+    return null;
+  }
 
   return (
     <Box mb="12px" w="550px">
@@ -39,19 +53,43 @@ const Repo = ({ repo, user }) => {
   );
 };
 
-export const RepoList = ({ repos, user, sortType }) =>
-  repos.length ? (
+export const RepoList = ({ repos, user, sortType }) => {
+  const [shouldShowForks, setShouldShowForks] = useState(false);
+
+  const onToggleSwitch = () => {
+    setShouldShowForks(!shouldShowForks);
+  };
+
+  return repos.length ? (
     <Box m="40px 0" textAlign="left">
+      <FormControl display="flex" alignItems="center">
+        <FormLabel htmlFor="fork-switch" mb="0">
+          Show Forks
+        </FormLabel>
+        <Switch
+          id="fork-switch"
+          size="lg"
+          onChange={onToggleSwitch}
+          value={shouldShowForks}
+        />
+      </FormControl>
       <Divider borderColor="#808080" mb="24px" />
       {sortReposList(repos, sortType).map((repo) => (
-        <Repo key={repo.id} repo={repo} user={user} />
+        <Repo
+          key={repo.id}
+          repo={repo}
+          user={user}
+          shouldShowForks={shouldShowForks}
+        />
       ))}
     </Box>
   ) : null;
+};
 
 Repo.propTypes = {
   repo: PropTypes.object,
   user: PropTypes.string,
+  shouldShowForks: PropTypes.bool,
 };
 
 RepoList.propTypes = {
