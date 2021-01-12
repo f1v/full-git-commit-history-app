@@ -6,8 +6,9 @@ import { userCommitHistoryState } from '../../recoil/atoms/userCommitHistoryStat
 import API from '../../utils/api';
 import { parseRepoData } from '../../utils/github-data-parser';
 import { CommitList } from '../commit-list/CommitList';
+import { UsernameSearchField } from '../main/UsernameSearchField';
 import { Link as RouterLink } from 'react-router-dom';
-import { Box, Divider, Flex, Heading, Link, Text } from '@chakra-ui/react';
+import { Heading, Link, Text } from '@chakra-ui/react';
 
 export const RepoPage = ({ match }) => {
   const { user, repo } = match.params;
@@ -42,6 +43,7 @@ export const RepoPage = ({ match }) => {
     <Spinner size="xl" />
   ) : (
     <div>
+      <UsernameSearchField size="small" />
       <Heading as="h5" my="30" size="md">
         <Link as={RouterLink} to={`/user/${user}`}>
           go back to {user}'s repositories
