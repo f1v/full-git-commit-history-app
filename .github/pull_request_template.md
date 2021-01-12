@@ -2,7 +2,9 @@
 
 <!-- Replace N/A with link to issue or card if applicable-->
 Resolves: N/A
+Card if applicable: [](url)
 
+<!-- Bullet points describing what this PR does -->
 -
 
 #### Checklist
