@@ -118,7 +118,7 @@ export const RepoList = ({ repos, user }) => {
 Repo.propTypes = {
   repo: PropTypes.object,
   user: PropTypes.string,
-  shouldShowForks: PropTypes.boolean,
+  shouldShowForks: PropTypes.bool,
 };
 
 RepoList.propTypes = {
