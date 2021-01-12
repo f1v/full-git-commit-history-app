@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useRecoilState } from 'recoil';
-import { Spinner } from '@chakra-ui/react';
 import { userRepoState } from '../../recoil/atoms/userRepoState';
 import API from '../../utils/api';
 import { parseUserData } from '../../utils/github-data-parser';
 import { RepoList } from '../repo-list/RepoList';
 import { UsernameSearchField } from '../main/UsernameSearchField';
+import { AppContext } from '../../contexts/AppContext';
 
 export const UserPage = ({ match }) => {
   const { user } = match.params;
-  const [isLoading, setIsLoading] = useState(false);
+  const { setIsLoading } = useContext(AppContext);
   const [userRepos, setUserRepos] = useRecoilState(userRepoState);
   const { [user]: currentUserRepos = [] } = userRepos;
 
@@ -31,9 +31,7 @@ export const UserPage = ({ match }) => {
     }
   }, []);
 
-  return isLoading ? (
-    <Spinner size="xl" />
-  ) : (
+  return (
     <>
       <UsernameSearchField size="small" />
       <RepoList repos={currentUserRepos} user={user} />
