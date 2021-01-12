@@ -1,6 +1,6 @@
 import { Heading, Link, Text } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
-import React, { useEffect, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 
@@ -12,12 +12,13 @@ import { CommitList } from '../commit-list/CommitList';
 
 export const RepoPage = ({ match }) => {
   const { user, repo } = match.params;
+  const [branches, setBranches] = useState([]);
   const { setIsLoading } = useContext(AppContext);
   const [commitHistory, setUserCommitHistory] = useRecoilState(
     userCommitHistoryState,
   );
 
-  const getData = async () => {
+  const getRepoData = async () => {
     setIsLoading(true);
     const rawRepoData = await API.getRepoCommitHistory({
       owner: user,
@@ -28,9 +29,19 @@ export const RepoPage = ({ match }) => {
     setIsLoading(false);
   };
 
+  const getBranchesData = async () => {
+    const rawData = await API.getRepoBranches({ owner: user, repo });
+    const newBranches = rawData.map(({ name }) => name);
+    setBranches(newBranches);
+  };
+
   useEffect(() => {
     if (!commitHistory[user] || !commitHistory[user][repo]) {
-      getData();
+      getRepoData();
+    }
+
+    if (!branches.length) {
+      getBranchesData();
     }
   }, []);
 
@@ -56,7 +67,7 @@ export const RepoPage = ({ match }) => {
           {user}
         </Link>
       </Heading>
-      <CommitList commits={commits} />
+      <CommitList commits={commits} branches={branches} />
     </div>
   );
 };
