@@ -7,9 +7,7 @@ export const UsernameSearchField = ({ size }) => {
   const history = useHistory();
   const [username, setUsername] = useState('');
   const isFullSize = size === 'full';
-  const labelText = isFullSize
-    ? 'Enter GitHub Username'
-    : 'Search another user';
+  const labelText = isFullSize ? 'Search GitHub Repositories and Commits' : '';
 
   const onChange = (event) => {
     setUsername(event.target.value);
@@ -22,20 +20,23 @@ export const UsernameSearchField = ({ size }) => {
 
   return (
     <Box as="form" mt={isFullSize ? '0' : '18px'} onSubmit={onSubmit}>
-      <Flex direction="column">
+      <Flex align="center" direction="column">
         <Text
           as="label"
-          fontSize={isFullSize ? '34px' : '18px'}
+          fontSize={isFullSize ? '28px' : '18px'}
           htmlFor="username"
           mb={isFullSize ? '12px' : '4px'}
         >
           {labelText}
         </Text>
         <Input
-          fontSize={isFullSize ? '24px' : '18px'}
+          fontSize={isFullSize ? '24px' : '14px'}
           h={isFullSize ? '60px' : '40px'}
           id="username"
           onChange={onChange}
+          placeholder={
+            isFullSize ? 'Enter GitHub username' : 'Search another user'
+          }
           textAlign="center"
           w={isFullSize ? '350px' : '200px'}
         />
