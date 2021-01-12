@@ -52,7 +52,6 @@ export const RepoPage = ({ match }) => {
 
   return (
     <div>
-      <UsernameSearchField size="small" />
       <Heading as="h5" my="30" size="md">
         <Link as={RouterLink} to={`/user/${user}`}>
           go back to {user}'s repositories
