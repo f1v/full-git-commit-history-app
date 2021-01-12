@@ -1,24 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Link as RouterLink } from 'react-router-dom';
-import { Box, Divider, Flex, Heading, Link, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Divider,
+  Flex,
+  Heading,
+  Link,
+  Select,
+  Text,
+} from '@chakra-ui/react';
 import { StarIcon } from '@chakra-ui/icons';
+import { filterRepos } from '../../utils/repoFilters';
 
 const Repo = ({ repo, user }) => {
-  const {
-    description,
-    language,
-    name,
-    pushed_at: pushedAt,
-    stargazers_count: stars,
-  } = repo;
+  const { description, language, name, pushedAt, numStars } = repo;
   const updatedAtForDisplay = `Updated ${moment(pushedAt).fromNow()}`;
-  const starsForDisplay = stars ? (
+  const starsForDisplay = numStars ? (
     <Flex align="baseline">
       <StarIcon boxSize="14px" />
       <Text fontSize="18px" ml="4px">
-        {stars}
+        {numStars}
       </Text>
     </Flex>
   ) : null;
@@ -44,12 +47,32 @@ const Repo = ({ repo, user }) => {
 };
 
 export const RepoList = ({ repos, user }) => {
+  const [repoFilter, setRepoFilter] = useState('lastUpdated');
+
+  const onFilterChange = (event) => {
+    const filterValue = event.target.value;
+    setRepoFilter(filterValue);
+  };
+
+  const SelectFilter = () => (
+    <Flex justifyContent="flex-end" mb="12px">
+      <Select fontSize="15px" onChange={onFilterChange} w="160px">
+        <option value="lastUpdated">Last Updated</option>
+        <option value="alphabetical">Alphabetical</option>
+        <option value="numStars">Star Count</option>
+      </Select>
+    </Flex>
+  );
+
   return repos.length ? (
     <Box m="40px 0" textAlign="left">
-      <Heading fontSize="28px" mb="24px" textAlign="center">
+      <Heading fontSize="28px" mb="16px" textAlign="center">
         {user}'s Repositories
       </Heading>
-      {repos.map((repo) => (
+
+      <SelectFilter />
+
+      {filterRepos(repos, repoFilter).map((repo) => (
         <Repo key={repo.id} repo={repo} user={user} />
       ))}
     </Box>
