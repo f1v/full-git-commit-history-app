@@ -31,15 +31,21 @@ export const RepoPage = ({ match }) => {
 
   const commits = (commitHistory[user] && commitHistory[user][repo]) || [];
   const repoURL = `https://github.com/${user}/${repo}`;
+  const userURL = `https://github.com/${user}`;
 
   return (
     <div>
+      <Heading as="h5" my="30" size="md">
+        <Link as={RouterLink} to={`/user/${user}`}>
+          go back to {user}'s repositories
+        </Link>
+      </Heading>
       <Heading fontSize="32px" mb="14px" textAlign="center">
         <Link href={repoURL} isExternal>
           {repo}
         </Link>
         <Text style={{ display: 'inline' }}> by </Text>
-        <Link as={RouterLink} to={`/user/${user}`}>
+        <Link href={userURL} isExternal>
           {user}
         </Link>
       </Heading>
