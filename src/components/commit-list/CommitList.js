@@ -1,7 +1,7 @@
-import { Box, Divider, Flex, Link, Text } from '@chakra-ui/react';
+import { Box, Divider, Flex, Link, Text, Select } from '@chakra-ui/react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 
 const Commit = ({ sha, commit, commiter, author, url }) => {
   return (
@@ -27,25 +27,48 @@ const Commit = ({ sha, commit, commiter, author, url }) => {
   );
 };
 
-export const CommitList = ({ commits }) => {
+export const CommitList = ({ commits, branches }) => {
+  const onSelect = (event) => {
+    // TODO
+    event.preventDefault();
+  };
+
+  const SelectDropdown = () => (
+    <Flex justifyContent="flex-end" mb="12px">
+      <Select fontSize="15px" onChange={onSelect} w="160px">
+        {branches.map((branchName, index) => {
+          return (
+            <option key={index} value={branchName}>
+              {branchName}
+            </option>
+          );
+        })}
+      </Select>
+    </Flex>
+  );
+
   return commits.length ? (
-    <Box mt="40px" textAlign="left">
-      {commits.map(({ author, commit, commiter, html_url, sha }) => (
-        <Commit
-          key={sha}
-          sha={sha}
-          commit={commit}
-          url={html_url}
-          commiter={commiter}
-          author={author}
-        />
-      ))}
-    </Box>
+    <>
+      <Box mt="40px" textAlign="left">
+        <SelectDropdown />
+        {commits.map(({ author, commit, commiter, html_url, sha }) => (
+          <Commit
+            key={sha}
+            sha={sha}
+            commit={commit}
+            url={html_url}
+            commiter={commiter}
+            author={author}
+          />
+        ))}
+      </Box>
+    </>
   ) : null;
 };
 
 CommitList.propTypes = {
   commits: PropTypes.arrayOf(PropTypes.object),
+  branches: PropTypes.arrayOf(PropTypes.string),
 };
 
 Commit.propTypes = {
