@@ -21,11 +21,10 @@ export const sortReposList = (repos, sortType) => {
 };
 
 /**
- * takes an object from github data from
- * GET /users/{username}/repos
- * and rips out only relevant keys
- * @param {Array} userRepoData
- *
+ * takes an array of from github data objects like
+ * https://api.github.com/users/f1v/repos
+ * and returns a filtered array with only relevant keys
+ * @param {Array} userData
  */
 export const parseUserData = (userData) => {
   return userData.map(
@@ -36,16 +35,16 @@ export const parseUserData = (userData) => {
       language,
       pushed_at: pushedAt,
       stargazers_count: numStars,
-    }) => ({ id, name, description, language, pushedAt, numStars }),
+      fork,
+    }) => ({ id, name, description, language, pushedAt, numStars, fork }),
   );
 };
 
 /**
- * takes an object from github data from
- * GET /repos/{owner}/{repo}/commits?sha=${sha}
- * and rips out only relevant keys
+ * takes an array of from github data objects like
+ * https://api.github.com/repos/f1v/full-git-commit-history-app/commits?sha=461682a
+ * and returns a filtered array with only relevant keys
  * @param {Array} repoData
- *
  */
 export const parseRepoData = (repoData) => {
   return repoData.map(
