@@ -83,8 +83,6 @@ export const RepoList = ({ repos, user }) => {
     </Flex>
   );
 
-  let repoList = sortReposList(repos, sortType);
-
   return repos.length ? (
     <Box m="40px 0" textAlign="left">
       <Heading fontSize="28px" mb="16px" textAlign="center">
@@ -103,7 +101,7 @@ export const RepoList = ({ repos, user }) => {
       </FormControl>
       <SelectDropdown />
 
-      {repoList.map((repo) => (
+      {sortReposList(repos, sortType).map((repo) => (
         <Repo
           key={repo.id}
           repo={repo}
