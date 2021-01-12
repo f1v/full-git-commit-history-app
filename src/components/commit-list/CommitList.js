@@ -1,26 +1,26 @@
 import { Box, Divider, Flex, Link, Text, Select } from '@chakra-ui/react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React from 'react';
 
-const Commit = ({ sha, commit, commiter, author, url }) => {
+const Commit = ({ githubCommitObject }) => {
+  const { sha, commit, html_url: url } = githubCommitObject;
+  const { commiter, author, message } = commit;
+
   return (
     <Box mb="12px" w="550px">
       <Flex align="baseline" justify="space-between">
         <Link href={url} isExternal>
           <Text fontSize="24px" maxW="550px" mb="10px" isTruncated>
-            {commit.message}
+            {message}
           </Text>
         </Link>
       </Flex>
       <Text fontSize="14px">{sha}</Text>
-      {author && <Text fontSize="14px">Authored by {commit.author.name}</Text>}
-      {commiter && (
-        <Text fontSize="14px">Commited by {commit.commiter.name}</Text>
-      )}
+      {author && <Text fontSize="14px">Authored by {author.name}</Text>}
+      {commiter && <Text fontSize="14px">Commited by {commiter.name}</Text>}
       <Text fontSize="14px">
-        Commited on{' '}
-        {moment(commit.author.date).format('MMM Do YYYY, h:mm:ss a')}
+        Commited on {moment(author.date).format('MMM Do YYYY, h:mm:ss a')}
       </Text>
       <Divider mt="12px" />
     </Box>
@@ -51,15 +51,8 @@ export const CommitList = ({ commits, branches }) => {
     <>
       <Box mt="40px" textAlign="left">
         <SelectDropdown />
-        {commits.map(({ author, commit, commiter, html_url, sha }) => (
-          <Commit
-            key={sha}
-            sha={sha}
-            commit={commit}
-            url={html_url}
-            commiter={commiter}
-            author={author}
-          />
+        {commits.map((githubCommitObject, index) => (
+          <Commit key={index} githubCommitObject={githubCommitObject} />
         ))}
       </Box>
     </>
@@ -72,9 +65,13 @@ CommitList.propTypes = {
 };
 
 Commit.propTypes = {
-  author: PropTypes.object,
-  commit: PropTypes.object,
-  commiter: PropTypes.object,
-  sha: PropTypes.string,
-  url: PropTypes.string,
+  githubCommitObject: PropTypes.shape({
+    commit: PropTypes.shape({
+      author: PropTypes.object,
+      commiter: PropTypes.object,
+      message: PropTypes.string,
+    }),
+    sha: PropTypes.string,
+    url: PropTypes.string,
+  }),
 };
