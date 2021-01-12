@@ -1,8 +1,9 @@
-import React, { useContext } from 'react';
-import { Routes } from './routes/Routes';
-import { Footer } from './main/Footer';
-import { AppContext } from '../contexts/AppContext';
 import { Spinner } from '@chakra-ui/react';
+import React, { useContext } from 'react';
+
+import { AppContext } from '../contexts/AppContext';
+import { Footer } from './main/Footer';
+import { Routes } from './routes/Routes';
 
 function App() {
   const { isLoading } = useContext(AppContext);

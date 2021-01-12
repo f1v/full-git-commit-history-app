@@ -1,14 +1,14 @@
-import React, { useEffect, useContext } from 'react';
-import PropTypes from 'prop-types';
-import { useRecoilState } from 'recoil';
-import { userCommitHistoryState } from '../../recoil/atoms/userCommitHistoryState';
-import API from '../../utils/api';
-import { parseRepoData } from '../../utils/github-data-parser';
-import { CommitList } from '../commit-list/CommitList';
-import { UsernameSearchField } from '../main/UsernameSearchField';
-import { Link as RouterLink } from 'react-router-dom';
 import { Heading, Link, Text } from '@chakra-ui/react';
+import PropTypes from 'prop-types';
+import React, { useEffect, useContext } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+
 import { AppContext } from '../../contexts/AppContext';
+import { UsernameSearchField } from '../main/UsernameSearchField';
+import { userCommitHistoryState } from '../../recoil/atoms/userCommitHistoryState';
+import { API, parseRepoData } from '../../utils';
+import { CommitList } from '../commit-list/CommitList';
 
 export const RepoPage = ({ match }) => {
   const { user, repo } = match.params;

@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 import PropTypes from 'prop-types';
+import React, { useEffect, useRef } from 'react';
 
 const DEFAULT_DATA = [
   { name: 'a', value: 1 },

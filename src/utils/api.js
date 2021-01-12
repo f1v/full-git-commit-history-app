@@ -1,4 +1,5 @@
 import { request } from '@octokit/request';
+
 const TOKEN = process.env.REACT_APP_GITHUB_TOKEN;
 
 /* 
@@ -67,7 +68,7 @@ const getRepoCommitHistory = async ({
   }
 };
 
-export default {
+export const API = {
   getReposData,
   getRepoCommitHistory,
 };

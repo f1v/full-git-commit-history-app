@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { Box, Divider, Flex, Link, Text } from '@chakra-ui/react';
 import moment from 'moment';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 const Commit = ({ sha, commit, commiter, author, url }) => {
   return (

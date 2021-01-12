@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
 import { Box, Flex, Input, Text } from '@chakra-ui/react';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 export const UsernameSearchField = ({ size }) => {
   const history = useHistory();
