@@ -1,13 +1,13 @@
 import { Heading, Link, Text } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 
 import { AppContext } from '../../contexts/AppContext';
 import { userCommitHistoryState } from '../../recoil/atoms/userCommitHistoryState';
 import { API, parseRepoData } from '../../utils';
 import { CommitList } from '../commit-list/CommitList';
+import { SwitchUserButton } from '../main/SwitchUserButton';
 
 export const RepoPage = ({ match }) => {
   const { user, repo } = match.params;
@@ -51,12 +51,8 @@ export const RepoPage = ({ match }) => {
 
   return (
     <div>
-      <Heading as="h5" my="30" size="md">
-        <Link as={RouterLink} to={`/user/${user}`}>
-          go back to {user}'s repositories
-        </Link>
-      </Heading>
-      <Heading fontSize="32px" mb="14px" textAlign="center">
+      <SwitchUserButton />
+      <Heading fontSize="32px" mt="25px" textAlign="center">
         <Link href={repoURL} isExternal>
           {repo}
         </Link>

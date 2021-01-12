@@ -49,7 +49,7 @@ export const CommitList = ({ commits, branches }) => {
 
   return commits.length ? (
     <>
-      <Box mt="40px" textAlign="left">
+      <Box mt="25px" textAlign="left">
         <SelectDropdown />
         {commits.map((githubCommitObject, index) => (
           <Commit key={index} githubCommitObject={githubCommitObject} />

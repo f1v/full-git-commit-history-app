@@ -49,7 +49,7 @@ const Repo = ({ repo, user, shouldShowForks }) => {
 export const RepoList = ({ repos, user, shouldShowForks, sortType }) => {
   return repos.length ? (
     <Box m="40px 0" textAlign="left">
-      <Divider borderColor="#808080" mb="24px" />
+      <Divider borderColor="#808080" mb="12px" />
       {sortReposList(repos, sortType).map((repo) => (
         <Repo
           key={repo.id}
