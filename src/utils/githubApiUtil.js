@@ -44,6 +44,7 @@ const getRepoCommitHistory = async ({
   data = [],
   escapeCount = 0,
 }) => {
+  console.log('!!! sha 2', sha);
   if (escapeCount > 5) return data;
   const { data: commitHistory } = await octoRequest(
     `GET /repos/{owner}/{repo}/commits?sha=${sha}`,
@@ -101,12 +102,16 @@ const getRepoBranches = async ({ owner, repo }) => {
  */
 const getBranchCommitHistory = async ({ owner, repo, branch = 'master' }) => {
   const {
-    data: { commit: sha },
+    data: {
+      commit: { sha },
+    },
   } = await octoRequest(`GET /repos/{owner}/{repo}/branches/{branch}`, {
     owner,
     repo,
     branch,
   });
+
+  console.log('!!! sha', sha);
 
   return await getRepoCommitHistory({ owner, repo, sha });
 };

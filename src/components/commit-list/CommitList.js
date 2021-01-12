@@ -1,7 +1,8 @@
 import { Box, Divider, Flex, Link, Text, Select } from '@chakra-ui/react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
+import { Redirect, useHistory } from 'react-router-dom';
 
 const Commit = ({ githubCommitObject }) => {
   const { sha, commit, html_url: url } = githubCommitObject;
@@ -27,25 +28,40 @@ const Commit = ({ githubCommitObject }) => {
   );
 };
 
-export const CommitList = ({ commits, branches }) => {
+export const CommitList = ({ commits, branches, user, repo }) => {
+  const history = useHistory();
+  const [shouldRedirect, setShouldRedirect] = useState(false);
+  const [branch, setBranch] = useState('');
+
   const onSelect = (event) => {
-    // TODO: selecting a branch should reload the page to that branch
     event.preventDefault();
+    // convert to base64 to retain backslash characters
+    const selectedBranch = window.btoa(event.target.value);
+    setShouldRedirect(true);
+    setBranch(selectedBranch);
   };
 
-  const SelectDropdown = () => (
-    <Flex justifyContent="flex-end" mb="12px">
-      <Select fontSize="15px" onChange={onSelect} w="160px">
-        {branches.map((branchName, index) => {
-          return (
-            <option key={index} value={branchName}>
-              {branchName}
-            </option>
-          );
-        })}
-      </Select>
-    </Flex>
-  );
+  const SelectDropdown = () => {
+    // TODO: add functionality for the edge case where a repo starts with main branch instead of master
+    return (
+      <Flex justifyContent="flex-end" mb="12px">
+        <Select fontSize="15px" onChange={onSelect} w="160px">
+          <option value="master">master</option>
+          {branches.map((branchName, index) => {
+            return (
+              <option key={index} value={branchName}>
+                {branchName}
+              </option>
+            );
+          })}
+        </Select>
+      </Flex>
+    );
+  };
+
+  if (shouldRedirect) {
+    return <Redirect to={`/user/${user}/repo/${repo}/branch/${branch}`} />;
+  }
 
   return commits.length ? (
     <>
@@ -62,6 +78,8 @@ export const CommitList = ({ commits, branches }) => {
 CommitList.propTypes = {
   commits: PropTypes.arrayOf(PropTypes.object),
   branches: PropTypes.arrayOf(PropTypes.string),
+  user: PropTypes.string,
+  repo: PropTypes.string,
 };
 
 Commit.propTypes = {
