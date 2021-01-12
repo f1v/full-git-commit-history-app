@@ -38,7 +38,7 @@ const Commit = ({ githubCommitObject }) => {
   );
 };
 
-export const CommitList = ({ commits, branches, user, repo }) => {
+export const CommitList = ({ commits, branches, user, repo, branch }) => {
   const history = useHistory();
 
   const onSelect = (event) => {
@@ -58,7 +58,7 @@ export const CommitList = ({ commits, branches, user, repo }) => {
           fontSize="15px"
           onChange={onSelect}
           w="160px"
-          value="master"
+          value={branch}
         >
           <option value="master">master</option>
           {branches.map((branchName, index) => {
@@ -90,6 +90,7 @@ CommitList.propTypes = {
   branches: PropTypes.arrayOf(PropTypes.string),
   user: PropTypes.string,
   repo: PropTypes.string,
+  branch: PropTypes.string,
 };
 
 Commit.propTypes = {

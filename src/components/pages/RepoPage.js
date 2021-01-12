@@ -102,6 +102,7 @@ export const RepoPage = ({ match }) => {
         branches={branches}
         user={user}
         repo={repo}
+        branch={branch}
       />
     </div>
   );
