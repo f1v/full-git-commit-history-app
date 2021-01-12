@@ -6,19 +6,13 @@ import { Box, Divider, Flex, Heading, Link, Text } from '@chakra-ui/react';
 import { StarIcon } from '@chakra-ui/icons';
 
 const Repo = ({ repo, user }) => {
-  const {
-    description,
-    language,
-    name,
-    pushed_at: pushedAt,
-    stargazers_count: stars,
-  } = repo;
+  const { description, language, name, pushedAt, stargazersCount } = repo;
   const updatedAtForDisplay = `Updated ${moment(pushedAt).fromNow()}`;
-  const starsForDisplay = stars ? (
+  const starsForDisplay = stargazersCount ? (
     <Flex align="baseline">
       <StarIcon boxSize="14px" />
       <Text fontSize="18px" ml="4px">
-        {stars}
+        {stargazersCount}
       </Text>
     </Flex>
   ) : null;

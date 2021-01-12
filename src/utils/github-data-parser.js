@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 /**
  * takes an object from github data from
  * GET /users/{username}/repos
@@ -6,11 +8,18 @@
  *
  */
 export const parseUserData = (userData) => {
-  return userData.map(
-    ({ id, name, description, language, pushed_at, stargazers_count }) => {
-      return { id, name, description, language, pushed_at, stargazers_count };
-    },
-  );
+  return userData
+    .map(
+      ({
+        id,
+        name,
+        description,
+        language,
+        pushed_at: pushedAt,
+        stargazers_count: stargazersCount,
+      }) => ({ id, name, description, language, pushedAt, stargazersCount }),
+    )
+    .sort((a, b) => moment(b.pushedAt).diff(moment(a.pushedAt)));
 };
 
 /**
