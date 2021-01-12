@@ -14,6 +14,7 @@ import { userRepoState } from '../../recoil/atoms/userRepoState';
 import { API, parseUserData } from '../../utils';
 import { RepoList } from '../repo-list/RepoList';
 import { AppContext } from '../../contexts/AppContext';
+import { SwitchUserButton } from '../main/SwitchUserButton';
 
 export const UserPage = ({ match }) => {
   const { user } = match.params;
@@ -87,6 +88,7 @@ export const UserPage = ({ match }) => {
 
   return (
     <>
+      <SwitchUserButton />
       <Flex align="center" justify="space-between" mt="25px" w="550px">
         <Heading fontSize="28px">{user}'s Repositories</Heading>
         <SelectDropdown />
