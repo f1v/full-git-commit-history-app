@@ -29,7 +29,7 @@ const Commit = ({ sha, commit, commiter, author, url }) => {
 
 export const CommitList = ({ commits, branches }) => {
   const onSelect = (event) => {
-    // TODO
+    // TODO: selecting a branch should reload the page to that branch
     event.preventDefault();
   };
 
