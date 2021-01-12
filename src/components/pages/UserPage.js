@@ -17,7 +17,7 @@ export const UserPage = ({ match }) => {
   const getData = async () => {
     setIsLoading(true);
 
-    const { data: rawUserData } = await API.getReposData({ username: user });
+    const { data: rawUserData } = await API.getUserRepos({ username: user });
     const userData = parseUserData(rawUserData);
 
     setUserRepos({ ...userRepos, [user]: userData });
