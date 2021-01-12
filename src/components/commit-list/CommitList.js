@@ -10,16 +10,26 @@ const Commit = ({ githubCommitObject }) => {
   return (
     <Box mb="12px" w="550px">
       <Flex align="baseline" justify="space-between">
-        <Link href={url} isExternal>
-          <Text fontSize="24px" maxW="550px" mb="10px" isTruncated>
+        <Link href={url} textDecoration="underline" isExternal>
+          <Text fontSize="20px" maxW="550px" mb="10px" isTruncated>
             {message}
           </Text>
         </Link>
       </Flex>
-      <Text fontSize="14px">{sha}</Text>
-      {author && <Text fontSize="14px">Authored by {author.name}</Text>}
-      {commiter && <Text fontSize="14px">Commited by {commiter.name}</Text>}
-      <Text fontSize="14px">
+      <Text color="#808080" fontSize="14px">
+        {sha}
+      </Text>
+      {author && (
+        <Text color="#808080" fontSize="14px">
+          Authored by {author.name}
+        </Text>
+      )}
+      {commiter && (
+        <Text color="#808080" fontSize="14px">
+          Commited by {commiter.name}
+        </Text>
+      )}
+      <Text color="#808080" fontSize="14px">
         Commited on {moment(author.date).format('MMM Do YYYY, h:mm:ss a')}
       </Text>
       <Divider mt="12px" />
@@ -34,8 +44,14 @@ export const CommitList = ({ commits, branches }) => {
   };
 
   const SelectDropdown = () => (
-    <Flex justifyContent="flex-end" mb="12px">
-      <Select fontSize="15px" onChange={onSelect} w="160px">
+    <Flex justifyContent="flex-end" mb="25px">
+      <Select
+        borderColor="#808080"
+        color="#808080"
+        fontSize="15px"
+        onChange={onSelect}
+        w="160px"
+      >
         {branches.map((branchName, index) => {
           return (
             <option key={index} value={branchName}>
