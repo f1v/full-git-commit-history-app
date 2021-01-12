@@ -1,16 +1,8 @@
 import { StarIcon } from '@chakra-ui/icons';
-import {
-  Box,
-  Divider,
-  Flex,
-  Heading,
-  Link,
-  Select,
-  Text,
-} from '@chakra-ui/react';
+import { Box, Divider, Flex, Link, Text } from '@chakra-ui/react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
 import { sortReposList } from '../../utils';
@@ -42,48 +34,20 @@ const Repo = ({ repo, user }) => {
 
       <Text fontSize="14px">{language}</Text>
       <Text fontSize="14px">{updatedAtForDisplay}</Text>
-      <Divider mt="12px" />
+      <Divider borderColor="#808080" mt="12px" />
     </Box>
   );
 };
 
-export const RepoList = ({ repos, user }) => {
-  const [sortType, setSortType] = useState('lastUpdated');
-
-  const onSortChange = (event) => {
-    const sortValue = event.target.value;
-    setSortType(sortValue);
-  };
-
-  const SelectDropdown = () => (
-    <Flex justifyContent="flex-end" mb="12px">
-      <Select
-        fontSize="15px"
-        onChange={onSortChange}
-        value={sortType}
-        w="160px"
-      >
-        <option value="lastUpdated">Last Updated</option>
-        <option value="alphabetical">Alphabetical</option>
-        <option value="numStars">Star Count</option>
-      </Select>
-    </Flex>
-  );
-
-  return repos.length ? (
+export const RepoList = ({ repos, user, sortType }) =>
+  repos.length ? (
     <Box m="40px 0" textAlign="left">
-      <Heading fontSize="28px" mb="16px" textAlign="center">
-        {user}'s Repositories
-      </Heading>
-
-      <SelectDropdown />
-
+      <Divider borderColor="#808080" mb="24px" />
       {sortReposList(repos, sortType).map((repo) => (
         <Repo key={repo.id} repo={repo} user={user} />
       ))}
     </Box>
   ) : null;
-};
 
 Repo.propTypes = {
   repo: PropTypes.object,
@@ -93,4 +57,5 @@ Repo.propTypes = {
 RepoList.propTypes = {
   repos: PropTypes.array,
   user: PropTypes.string,
+  sortType: PropTypes.string,
 };
