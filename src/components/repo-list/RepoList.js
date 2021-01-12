@@ -57,7 +57,12 @@ export const RepoList = ({ repos, user }) => {
 
   const SelectFilter = () => (
     <Flex justifyContent="flex-end" mb="12px">
-      <Select fontSize="15px" onChange={onFilterChange} w="160px">
+      <Select
+        fontSize="15px"
+        onChange={onFilterChange}
+        value={repoFilter}
+        w="160px"
+      >
         <option value="lastUpdated">Last Updated</option>
         <option value="alphabetical">Alphabetical</option>
         <option value="numStars">Star Count</option>
