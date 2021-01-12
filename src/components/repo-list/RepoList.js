@@ -1,17 +1,8 @@
 import { StarIcon } from '@chakra-ui/icons';
-import {
-  Box,
-  Divider,
-  Flex,
-  Link,
-  Text,
-  Switch,
-  FormControl,
-  FormLabel,
-} from '@chakra-ui/react';
+import { Box, Divider, Flex, Link, Text } from '@chakra-ui/react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
 import { sortReposList } from '../../utils';
@@ -55,26 +46,9 @@ const Repo = ({ repo, user, shouldShowForks }) => {
   );
 };
 
-export const RepoList = ({ repos, user, sortType }) => {
-  const [shouldShowForks, setShouldShowForks] = useState(false);
-
-  const onToggleSwitch = () => {
-    setShouldShowForks(!shouldShowForks);
-  };
-
+export const RepoList = ({ repos, user, shouldShowForks, sortType }) => {
   return repos.length ? (
     <Box m="40px 0" textAlign="left">
-      <FormControl display="flex" alignItems="center">
-        <FormLabel htmlFor="fork-switch" mb="0">
-          Show Forks
-        </FormLabel>
-        <Switch
-          id="fork-switch"
-          size="lg"
-          onChange={onToggleSwitch}
-          value={shouldShowForks}
-        />
-      </FormControl>
       <Divider borderColor="#808080" mb="24px" />
       {sortReposList(repos, sortType).map((repo) => (
         <Repo
@@ -97,5 +71,6 @@ Repo.propTypes = {
 RepoList.propTypes = {
   repos: PropTypes.array,
   user: PropTypes.string,
+  shouldShowForks: PropTypes.bool,
   sortType: PropTypes.string,
 };
