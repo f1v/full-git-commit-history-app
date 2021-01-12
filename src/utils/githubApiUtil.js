@@ -17,8 +17,8 @@ const octoRequest = request.defaults({
  * returns all repositories relating to that user
  * @param {Object} param
  * @param {String} param.username
- * @endpoint https://api.github.com/users/f1v/repos
- * https://docs.github.com/en/free-pro-team@latest/rest/reference/repos
+ * @example endpoint: https://api.github.com/users/f1v/repos
+ * @example description: https://docs.github.com/en/free-pro-team@latest/rest/reference/repos
  */
 const getUserRepos = async ({ username }) => {
   return await octoRequest('GET /users/{username}/repos', {
@@ -34,8 +34,8 @@ const getUserRepos = async ({ username }) => {
  * @param {String} param.sha commit SHA
  * @param {Array} param.data list of github api Objects
  * @param {Number} param.escapeCount fallback counter to prevent gathering too many commits
- * @endpoint https://api.github.com/repos/f1v/full-git-commit-history-app/commits?sha=461682ac873cfe9cbdb6d42a078cd8080f4cf17b
- * https://docs.github.com/en/free-pro-team@latest/rest/reference/repos#list-commits
+ * @example endpoint: https://api.github.com/repos/f1v/full-git-commit-history-app/commits?sha=461682ac873cfe9cbdb6d42a078cd8080f4cf17b
+ * @example description: https://docs.github.com/en/free-pro-team@latest/rest/reference/repos#list-commits
  */
 const getRepoCommitHistory = async ({
   owner,
@@ -75,8 +75,8 @@ const getRepoCommitHistory = async ({
  * @param {Object} param
  * @param {String} param.owner
  * @param {String} param.repo
- * @endpoint https://api.github.com/repos/f1v/full-git-commit-history-app/branches
- * https://docs.github.com/en/free-pro-team@latest/rest/reference/repos#list-branches
+ * @example endpoint: https://api.github.com/repos/f1v/full-git-commit-history-app/branches
+ * @example description: https://docs.github.com/en/free-pro-team@latest/rest/reference/repos#list-branches
  */
 const getRepoBranches = async ({ owner, repo }) => {
   const { data: repoBranches } = await octoRequest(
@@ -96,7 +96,8 @@ const getRepoBranches = async ({ owner, repo }) => {
  * @param {String} owner
  * @param {String} repo
  * @param {String} branch
- * @endpoint https://api.github.com/repos/f1v/full-git-commit-history-app/branches
+ * @example endpoint: https://api.github.com/repos/f1v/full-git-commit-history-app/branches
+ * @example description: https://docs.github.com/en/free-pro-team@latest/rest/reference/repos#get-a-branch
  */
 const getBranchCommitHistory = async ({ owner, repo, branch = 'master' }) => {
   const {
