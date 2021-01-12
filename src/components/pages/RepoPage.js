@@ -30,11 +30,15 @@ export const RepoPage = ({ match }) => {
   }, []);
 
   const commits = (commitHistory[user] && commitHistory[user][repo]) || [];
+  const repoURL = `https://github.com/${user}/${repo}`;
 
   return (
     <div>
       <Heading fontSize="32px" mb="14px" textAlign="center">
-        {repo} by{' '}
+        <Link href={repoURL} isExternal>
+          {repo}
+        </Link>
+        <Text style={{ display: 'inline' }}> by </Text>
         <Link as={RouterLink} to={`/user/${user}`}>
           {user}
         </Link>
