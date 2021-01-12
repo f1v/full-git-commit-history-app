@@ -3,10 +3,10 @@ import moment from 'moment';
 /**
  * takes an array of github data objects and applies a sort
  * @param {Array} repos
- * @param {String} filterType
+ * @param {String} sortType
  */
-export const filterRepos = (repos, filterType) => {
-  switch (filterType) {
+export const sortReposList = (repos, sortType) => {
+  switch (sortType) {
     case 'alphabetical':
       return repos; // repos are alphabetical by default
     case 'lastUpdated':

@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
-import { filterRepos } from '../../utils';
+import { sortReposList } from '../../utils';
 
 const Repo = ({ repo, user }) => {
   const { description, language, name, pushedAt, numStars } = repo;
@@ -48,19 +48,19 @@ const Repo = ({ repo, user }) => {
 };
 
 export const RepoList = ({ repos, user }) => {
-  const [repoFilter, setRepoFilter] = useState('lastUpdated');
+  const [sortType, setSortType] = useState('lastUpdated');
 
-  const onFilterChange = (event) => {
-    const filterValue = event.target.value;
-    setRepoFilter(filterValue);
+  const onSortChange = (event) => {
+    const sortValue = event.target.value;
+    setSortType(sortValue);
   };
 
-  const SelectFilter = () => (
+  const SelectDropdown = () => (
     <Flex justifyContent="flex-end" mb="12px">
       <Select
         fontSize="15px"
-        onChange={onFilterChange}
-        value={repoFilter}
+        onChange={onSortChange}
+        value={sortType}
         w="160px"
       >
         <option value="lastUpdated">Last Updated</option>
@@ -76,9 +76,9 @@ export const RepoList = ({ repos, user }) => {
         {user}'s Repositories
       </Heading>
 
-      <SelectFilter />
+      <SelectDropdown />
 
-      {filterRepos(repos, repoFilter).map((repo) => (
+      {sortReposList(repos, sortType).map((repo) => (
         <Repo key={repo.id} repo={repo} user={user} />
       ))}
     </Box>
