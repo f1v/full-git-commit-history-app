@@ -5,10 +5,11 @@ titleOnly: true
 # See: https://github.com/commitizen/conventional-commit-types/blob/v3.0.0/index.json
 # You can override the valid types
 types:
+  - chore
   - feat
   - fix
   - refactor
-  - chore
+  - style
 
 # Allow use of Merge commits (eg on github: "Merge branch 'master' into feature/ride-unicorns")
 # this is only relevant when using commitsOnly: true (or titleAndCommits: true)
