@@ -52,7 +52,7 @@ export const RepoPage = ({ match }) => {
   return (
     <div>
       <SwitchUserButton />
-      <Heading fontSize="32px" mt="25px" textAlign="center">
+      <Heading fontSize="28px" mt="25px" textAlign="left">
         <Link href={repoURL} isExternal>
           {repo}
         </Link>
