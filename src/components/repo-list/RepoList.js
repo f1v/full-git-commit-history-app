@@ -1,7 +1,4 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import moment from 'moment';
-import { Link as RouterLink } from 'react-router-dom';
+import { StarIcon } from '@chakra-ui/icons';
 import {
   Box,
   Divider,
@@ -11,8 +8,12 @@ import {
   Select,
   Text,
 } from '@chakra-ui/react';
-import { StarIcon } from '@chakra-ui/icons';
-import { filterRepos } from '../../utils/repoFilters';
+import moment from 'moment';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
+
+import { filterRepos } from '../../utils';
 
 const Repo = ({ repo, user }) => {
   const { description, language, name, pushedAt, numStars } = repo;

@@ -1,12 +1,13 @@
+import { ChakraProvider } from '@chakra-ui/react';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
-import { ChakraProvider } from '@chakra-ui/react';
+import { RecoilRoot } from 'recoil';
+import recoilPersist from 'recoil-persist';
+
 import App from './components/App';
 import { AppProvider } from './contexts/AppContext';
 import './css/index.scss';
-import { RecoilRoot } from 'recoil';
-import recoilPersist from 'recoil-persist';
 
 const { RecoilPersist, updateState } = recoilPersist([
   'userRepoState',
