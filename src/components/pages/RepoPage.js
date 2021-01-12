@@ -32,7 +32,7 @@ export const RepoPage = ({ match }) => {
   }
 
   /**
-   * picks up to full commit history for a repo's main branch
+   * picks up the full commit history for a repo's main branch
    * saves main branch commits to local storage
    */
   const getCommitHistory = async () => {
@@ -47,8 +47,7 @@ export const RepoPage = ({ match }) => {
   };
 
   /**
-   * picks up all branches in a repo
-   * and saves in component state
+   * picks up all branches in a repo, saves in component state
    */
   const getBranchesData = async () => {
     const rawData = await API.getRepoBranches({ owner: user, repo });
@@ -57,7 +56,7 @@ export const RepoPage = ({ match }) => {
   };
 
   /**
-   * returns to full commit history for selected repo branch
+   * returns the full commit history for selected repo branch
    * and saves in component state
    * does not save branch commit history to local storage
    */

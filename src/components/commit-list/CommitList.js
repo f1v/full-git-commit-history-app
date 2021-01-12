@@ -51,13 +51,14 @@ export const CommitList = ({ commits, branches, user, repo }) => {
   const SelectDropdown = () => {
     // TODO: add functionality for the edge case where a repo starts with main branch instead of master
     return (
-      <Flex justifyContent="flex-end" mb="12px">
+      <Flex justifyContent="flex-end" mb="25px">
         <Select
           borderColor="#808080"
           color="#808080"
           fontSize="15px"
           onChange={onSelect}
           w="160px"
+          value="master"
         >
           <option value="master">master</option>
           {branches.map((branchName, index) => {
