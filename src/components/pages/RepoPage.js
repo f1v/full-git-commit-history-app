@@ -30,8 +30,9 @@ export const RepoPage = ({ match }) => {
   }, []);
 
   const commits = (commitHistory[user] && commitHistory[user][repo]) || [];
-  const repoURL = `https://github.com/${user}/${repo}`;
-  const userURL = `https://github.com/${user}`;
+  const baseURL = 'https://github.com';
+  const userURL = `${baseURL}/${user}`;
+  const repoURL = `${userURL}/${repo}`;
 
   return (
     <div>
