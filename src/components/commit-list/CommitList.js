@@ -1,5 +1,13 @@
 import { ExternalLinkIcon } from '@chakra-ui/icons';
-import { Box, Divider, Flex, Link, Text, Select } from '@chakra-ui/react';
+import {
+  Box,
+  Divider,
+  Flex,
+  Heading,
+  Link,
+  Text,
+  Select,
+} from '@chakra-ui/react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -78,7 +86,12 @@ export const CommitList = ({ commits, branches, user, repo, branch }) => {
   return commits.length ? (
     <>
       <Box mt="25px" textAlign="left">
-        <SelectDropdown />
+        <Flex align="baseline" justify="space-between" mb="18px" w="550px">
+          <Heading fontSize="28px">Commit History</Heading>
+          <SelectDropdown />
+        </Flex>
+
+        <Divider mb="12px" />
         {commits.map((githubCommitObject, index) => (
           <Commit key={index} githubCommitObject={githubCommitObject} />
         ))}
