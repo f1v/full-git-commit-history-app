@@ -15,6 +15,8 @@ import { useHistory } from 'react-router-dom';
 
 import { orderRepoBranches } from '../../utils';
 
+// TODO: Make this its own component file and more generic
+// refactor with UserPage Select Dropdown
 const SelectDropdown = ({ currentBranch, defaultValue, options, onSelect }) => {
   return (
     <Flex justifyContent="flex-end" mb="25px">
