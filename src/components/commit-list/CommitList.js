@@ -1,8 +1,17 @@
-import { Box, Divider, Flex, Link, Text, Select } from '@chakra-ui/react';
+import { ExternalLinkIcon } from '@chakra-ui/icons';
+import {
+  Box,
+  Divider,
+  Flex,
+  Heading,
+  Link,
+  Text,
+  Select,
+} from '@chakra-ui/react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
-import { Redirect, useHistory } from 'react-router-dom';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 const Commit = ({ githubCommitObject }) => {
   const { sha, commit, html_url: url } = githubCommitObject;
@@ -13,6 +22,7 @@ const Commit = ({ githubCommitObject }) => {
       <Flex align="baseline" justify="space-between">
         <Link href={url} textDecoration="underline" isExternal>
           <Text fontSize="20px" maxW="550px" mb="10px" isTruncated>
+            <ExternalLinkIcon mr="2px" w="16px" />
             {message}
           </Text>
         </Link>
@@ -76,7 +86,12 @@ export const CommitList = ({ commits, branches, user, repo, branch }) => {
   return commits.length ? (
     <>
       <Box mt="25px" textAlign="left">
-        <SelectDropdown />
+        <Flex align="baseline" justify="space-between" mb="18px" w="550px">
+          <Heading fontSize="28px">Commit History</Heading>
+          <SelectDropdown />
+        </Flex>
+
+        <Divider mb="12px" />
         {commits.map((githubCommitObject, index) => (
           <Commit key={index} githubCommitObject={githubCommitObject} />
         ))}
