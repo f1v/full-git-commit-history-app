@@ -19,7 +19,7 @@ module.exports = {
     historyApiFallback: true,
     contentBase: './',
   },
-  devtool: 'eval-source-map',
+  devtool: isProduction ? 'none' : 'eval-source-map',
   module: {
     rules: [
       {
