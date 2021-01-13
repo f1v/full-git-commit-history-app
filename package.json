@@ -27,6 +27,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.4",
     "recoil": "^0.1.2",
+    "recoil-persist": "^0.9.0",
     "sass": "^1.27.0",
     "sass-loader": "^10.0.3",
     "source-map-loader": "^1.1.1",
@@ -59,7 +60,6 @@
     "eslint-plugin-prettier": "^3.2.0",
     "eslint-plugin-react": "^6.0.0",
     "prettier": "^2.2.1",
-    "recoil-persist": "^0.8.0",
     "webpack": "^4.44.2",
     "webpack-cli": "^3.3.12"
   }
