@@ -7,13 +7,13 @@ export const Footer = () => {
 
   return (
     <footer style={{ padding: '20px' }}>
-      <Text fontSize="12px">
+      <Text color="#808080" fontSize="12px">
         This{' '}
-        <Link href={projectLink} isExternal>
+        <Link href={projectLink} textDecoration="underline" isExternal>
           project
         </Link>{' '}
         was made by{' '}
-        <Link href={f1vLink} isExternal>
+        <Link href={f1vLink} textDecoration="underline" isExternal>
           F1V
         </Link>{' '}
         for our hackathon 2021

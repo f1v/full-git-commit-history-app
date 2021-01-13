@@ -89,11 +89,14 @@ export const RepoPage = ({ match }) => {
     <div>
       <SwitchUserButton />
       <Heading fontSize="28px" mt="25px" textAlign="left">
-        <Link href={repoURL} isExternal>
+        <Link href={repoURL} textDecoration="underline" isExternal>
           {repo}
         </Link>
-        <Text style={{ display: 'inline' }}> by </Text>
-        <Link href={userURL} isExternal>
+        <Text color="#808080" style={{ display: 'inline' }}>
+          {' '}
+          by{' '}
+        </Text>
+        <Link href={userURL} textDecoration="underline" isExternal>
           {user}
         </Link>
       </Heading>
