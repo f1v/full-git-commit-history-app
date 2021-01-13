@@ -11,11 +11,13 @@ import { SwitchUserButton } from '../main/SwitchUserButton';
 
 export const RepoPage = ({ match }) => {
   const { user, repo, branch: branchName } = match.params;
+  // convert from base64 to retain backslash characters
   const branch = branchName && window.atob(branchName);
   const baseURL = 'https://github.com';
   const userURL = `${baseURL}/${user}`;
   const repoURL = `${userURL}/${repo}`;
 
+  const [defaultBranch, setDefaultBranch] = useState('');
   const [branchCommitHistory, setBranchCommitHistory] = useState([]);
   const [branches, setBranches] = useState([]);
   const { setIsLoading } = useContext(AppContext);
@@ -32,16 +34,30 @@ export const RepoPage = ({ match }) => {
   }
 
   /**
+   * picks up defaultBranch name for repository
+   * saves in component state
+   */
+  const getDefaultBranch = async () => {
+    const {
+      data: { default_branch: defaultBranch },
+    } = await API.getRepo({
+      owner: user,
+      repo,
+    });
+    setDefaultBranch(defaultBranch);
+  };
+
+  /**
    * picks up the full commit history for a repo's main branch
    * saves main branch commits to local storage
    */
   const getCommitHistory = async () => {
     setIsLoading(true);
-    const rawRepoData = await API.getRepoCommitHistory({
+    const rawRepoCommits = await API.getRepoCommitHistory({
       owner: user,
       repo,
     });
-    const repoCommits = parseRepoData(rawRepoData);
+    const repoCommits = parseRepoData(rawRepoCommits);
     setUserCommitHistory({ ...commitHistory, [user]: { [repo]: repoCommits } });
     setIsLoading(false);
   };
@@ -72,6 +88,8 @@ export const RepoPage = ({ match }) => {
   };
 
   useEffect(() => {
+    getDefaultBranch();
+
     if (branch) {
       getBranchCommitHistory();
     }
@@ -106,6 +124,7 @@ export const RepoPage = ({ match }) => {
         user={user}
         repo={repo}
         branch={branch}
+        defaultBranch={defaultBranch}
       />
     </div>
   );

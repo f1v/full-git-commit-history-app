@@ -13,6 +13,29 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
+const SelectDropdown = ({ currentBranch, defaultValue, options, onSelect }) => {
+  return (
+    <Flex justifyContent="flex-end" mb="25px">
+      <Select
+        borderColor="#808080"
+        color="#808080"
+        fontSize="15px"
+        onChange={onSelect}
+        w="160px"
+        value={currentBranch || defaultValue}
+      >
+        {options.map((branchName, index) => {
+          return (
+            <option key={index} value={branchName}>
+              {branchName}
+            </option>
+          );
+        })}
+      </Select>
+    </Flex>
+  );
+};
+
 const Commit = ({ githubCommitObject }) => {
   const { sha, commit, html_url: url } = githubCommitObject;
   const { commiter, author, message } = commit;
@@ -48,7 +71,14 @@ const Commit = ({ githubCommitObject }) => {
   );
 };
 
-export const CommitList = ({ commits, branches, user, repo, branch }) => {
+export const CommitList = ({
+  commits,
+  branches,
+  user,
+  repo,
+  branch,
+  defaultBranch,
+}) => {
   const history = useHistory();
 
   const onSelect = (event) => {
@@ -58,37 +88,26 @@ export const CommitList = ({ commits, branches, user, repo, branch }) => {
     history.push(`/user/${user}/repo/${repo}/branch/${branch}`);
   };
 
-  const SelectDropdown = () => {
-    // TODO: add functionality for the edge case where a repo starts with main branch instead of master
-    return (
-      <Flex justifyContent="flex-end" mb="25px">
-        <Select
-          borderColor="#808080"
-          color="#808080"
-          fontSize="15px"
-          onChange={onSelect}
-          w="160px"
-          value={branch}
-        >
-          <option value="master">master</option>
-          {branches.map((branchName, index) => {
-            return (
-              <option key={index} value={branchName}>
-                {branchName}
-              </option>
-            );
-          })}
-        </Select>
-      </Flex>
-    );
+  const moveDefaultBranchToTop = (repoBranches) => {
+    const copy = repoBranches.slice();
+    const defaultBranchIndex = copy.indexOf(defaultBranch);
+    copy.splice(defaultBranchIndex, 1);
+    copy.unshift(defaultBranch);
+    return copy;
   };
+
+  const options = moveDefaultBranchToTop(branches);
 
   return commits.length ? (
     <>
       <Box mt="25px" textAlign="left">
         <Flex align="baseline" justify="space-between" mb="18px" w="550px">
           <Heading fontSize="28px">Commit History</Heading>
-          <SelectDropdown />
+          <SelectDropdown
+            currentBranch={branch}
+            options={options}
+            onSelect={onSelect}
+          />
         </Flex>
 
         <Divider mb="12px" />
@@ -103,9 +122,10 @@ export const CommitList = ({ commits, branches, user, repo, branch }) => {
 CommitList.propTypes = {
   commits: PropTypes.arrayOf(PropTypes.object),
   branches: PropTypes.arrayOf(PropTypes.string),
+  branch: PropTypes.string,
   user: PropTypes.string,
   repo: PropTypes.string,
-  branch: PropTypes.string,
+  defaultBranch: PropTypes.string,
 };
 
 Commit.propTypes = {
@@ -118,4 +138,11 @@ Commit.propTypes = {
     sha: PropTypes.string,
     url: PropTypes.string,
   }),
+};
+
+SelectDropdown.propTypes = {
+  currentBranch: PropTypes.string,
+  defaultValue: PropTypes.string,
+  options: PropTypes.arrayOf(PropTypes.string),
+  onSelect: PropTypes.func,
 };
