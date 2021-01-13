@@ -3,6 +3,7 @@ import {
   FormControl,
   FormLabel,
   Heading,
+  Input,
   Select,
   Switch,
 } from '@chakra-ui/react';
@@ -22,7 +23,11 @@ export const UserPage = ({ match }) => {
   const { setIsLoading } = useContext(AppContext);
   const [userRepos, setUserRepos] = useRecoilState(userRepoState);
   const { [user]: currentUserRepos = [] } = userRepos;
+  const [currentUserReposFiltered, setCurrentUserReposFiltered] = useState(
+    currentUserRepos,
+  );
   const [shouldShowForks, setShouldShowForks] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
 
   const getData = async () => {
     setIsLoading(true);
@@ -86,6 +91,32 @@ export const UserPage = ({ match }) => {
     </FormControl>
   );
 
+  const onSearchChange = (event) => {
+    const text = event.target.value.toLowerCase();
+    setSearchValue(text);
+    const filteredRepos = currentUserRepos.filter(
+      (repo) =>
+        (repo.description && repo.description.toLowerCase().includes(text)) ||
+        repo.name.toLowerCase().includes(text) ||
+        repo.language.toLowerCase().includes(text),
+    );
+    setCurrentUserReposFiltered(filteredRepos);
+  };
+
+  const SearchField = () => (
+    <Flex justify="flex-start" w="550px">
+      <Input
+        borderColor="#808080"
+        color="#808080"
+        fontSize="15px"
+        onChange={onSearchChange}
+        placeholder="Enter search terms"
+        value={searchValue}
+        w="170px"
+      />
+    </Flex>
+  );
+
   return (
     <>
       <SwitchUserButton />
@@ -96,8 +127,9 @@ export const UserPage = ({ match }) => {
 
       <ShowForksSwitch shouldShowForks={shouldShowForks} />
 
+      <SearchField />
       <RepoList
-        repos={currentUserRepos}
+        repos={currentUserReposFiltered}
         shouldShowForks={shouldShowForks}
         sortType={sortType}
         user={user}
