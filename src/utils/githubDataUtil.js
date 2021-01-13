@@ -63,3 +63,16 @@ export const parseRepoData = (repoData) => {
     },
   );
 };
+
+/**
+ * takes a list of branches and puts the main branch at the top
+ * @param {Array<String>} branches
+ * @param {String} mainBranch
+ */
+export const orderRepoBranches = (branches, mainBranch) => {
+  const copy = branches.slice();
+  const defaultBranchIndex = copy.indexOf(mainBranch);
+  copy.splice(defaultBranchIndex, 1);
+  copy.unshift(mainBranch);
+  return copy;
+};

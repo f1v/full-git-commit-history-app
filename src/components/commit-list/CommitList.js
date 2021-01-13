@@ -13,6 +13,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
+import { orderRepoBranches } from '../../utils';
+
 const SelectDropdown = ({ currentBranch, defaultValue, options, onSelect }) => {
   return (
     <Flex justifyContent="flex-end" mb="25px">
@@ -80,6 +82,7 @@ export const CommitList = ({
   defaultBranch,
 }) => {
   const history = useHistory();
+  const options = orderRepoBranches(branches, defaultBranch);
 
   const onSelect = (event) => {
     event.preventDefault();
@@ -87,16 +90,6 @@ export const CommitList = ({
     const branch = window.btoa(event.target.value);
     history.push(`/user/${user}/repo/${repo}/branch/${branch}`);
   };
-
-  const moveDefaultBranchToTop = (repoBranches) => {
-    const copy = repoBranches.slice();
-    const defaultBranchIndex = copy.indexOf(defaultBranch);
-    copy.splice(defaultBranchIndex, 1);
-    copy.unshift(defaultBranch);
-    return copy;
-  };
-
-  const options = moveDefaultBranchToTop(branches);
 
   return commits.length ? (
     <>
