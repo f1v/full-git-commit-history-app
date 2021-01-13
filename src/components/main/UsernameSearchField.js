@@ -18,9 +18,6 @@ export const UsernameSearchField = () => {
   return (
     <Box as="form" onSubmit={onSubmit}>
       <Flex align="center" direction="column">
-        <Text as="label" fontSize="28px" htmlFor="username" mb="12px">
-          Search GitHub Repositories and Commits
-        </Text>
         <Input
           fontSize="24px"
           h="60px"
