@@ -12,11 +12,9 @@ const Repo = ({ repo, user, shouldShowForks }) => {
   const { description, language, name, pushedAt, numStars, fork } = repo;
   const updatedAtForDisplay = `Updated ${moment(pushedAt).fromNow()}`;
   const starsForDisplay = numStars ? (
-    <Flex align="baseline">
+    <Flex align="baseline" ml="5px">
       <StarIcon boxSize="14px" />
-      <Text fontSize="18px" ml="4px">
-        {numStars}
-      </Text>
+      <Text fontSize="18px">{numStars}</Text>
     </Flex>
   ) : null;
 
@@ -35,8 +33,10 @@ const Repo = ({ repo, user, shouldShowForks }) => {
         >
           <Text fontSize="20px">{name}</Text>
         </Link>
-        {starsForDisplay}
-        {fork && <GithubForkIcon />}
+        <Flex>
+          {fork && <GithubForkIcon ml="5px" />}
+          {starsForDisplay}
+        </Flex>
       </Flex>
 
       <Text color="#808080" fontSize="14px" mb="10px" isTruncated>
