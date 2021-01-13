@@ -69,7 +69,7 @@ export const RepoList = ({ repos, user, shouldShowForks, sortType }) => {
     </Box>
   ) : (
     <Box m="25px 0 25px">
-      <Text font-size="24px">No results found</Text>
+      <Text fontSize="24px">No results found</Text>
     </Box>
   );
 };

@@ -97,25 +97,11 @@ export const UserPage = ({ match }) => {
     const filteredRepos = currentUserRepos.filter(
       (repo) =>
         (repo.description && repo.description.toLowerCase().includes(text)) ||
-        repo.name.toLowerCase().includes(text) ||
-        repo.language.toLowerCase().includes(text),
+        (repo.name && repo.name.toLowerCase().includes(text)) ||
+        (repo.language && repo.language.toLowerCase().includes(text)),
     );
     setCurrentUserReposFiltered(filteredRepos);
   };
-
-  const SearchField = () => (
-    <Flex justify="flex-start" w="550px">
-      <Input
-        borderColor="#808080"
-        color="#808080"
-        fontSize="15px"
-        onChange={onSearchChange}
-        placeholder="Enter search terms"
-        value={searchValue}
-        w="170px"
-      />
-    </Flex>
-  );
 
   return (
     <>
@@ -127,7 +113,18 @@ export const UserPage = ({ match }) => {
 
       <ShowForksSwitch shouldShowForks={shouldShowForks} />
 
-      <SearchField />
+      <Flex justify="flex-start" w="550px">
+        <Input
+          borderColor="#808080"
+          color="#808080"
+          fontSize="15px"
+          onChange={onSearchChange}
+          placeholder="Enter search terms"
+          value={searchValue}
+          w="170px"
+        />
+      </Flex>
+
       <RepoList
         repos={currentUserReposFiltered}
         shouldShowForks={shouldShowForks}
