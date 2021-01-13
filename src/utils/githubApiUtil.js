@@ -27,6 +27,20 @@ const getUserRepos = async ({ username }) => {
 };
 
 /**
+ * @param {Object} param
+ * @param {String} param.owner
+ * @param {String} param.repo
+ * @example endpoint: https://api.github.com/repos/f1v/full-git-commit-history-app
+ * @example description: https://docs.github.com/en/free-pro-team@latest/rest/reference/repos#get-a-repository
+ */
+const getRepo = async ({ owner, repo }) => {
+  return await octoRequest('GET /repos/{owner}/{repo}', {
+    owner,
+    repo,
+  });
+};
+
+/**
  * returns entire commit history from looking up SHAs
  * @param {Object} param
  * @param {String} param.owner github username; e.g. facebook
@@ -118,4 +132,7 @@ export const API = {
   getUserRepos,
   getRepoCommitHistory,
   getRepoBranches,
+  getRepo,
 };
+
+window.api = API;
